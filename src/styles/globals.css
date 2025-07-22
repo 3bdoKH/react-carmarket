@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+html{
+    scroll-behavior: smooth;
+}
+.button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    outline: none;
+    border: 1px solid #0070f3;
+    background: #0070f3;
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.button:hover{
+    background: #005bb5;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+.button:active{
+    background: #003d80;
+    color: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+}
+.hero-image {
+    transition: opacity 0.5s ease;
+    opacity: 1;
+}
+.fade-in {
+    opacity: 1;
+}
+.fade-out {
+    opacity: 0;
+}

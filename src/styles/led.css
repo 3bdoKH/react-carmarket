@@ -1,0 +1,59 @@
+.led-blog-container {
+    direction: rtl;
+    font-family: inherit;
+    padding: 2rem 7rem;
+    background: #fff;
+    width: 60%;
+    margin: 1rem auto;
+}
+@media (width < 768px) { 
+    .led-blog-container{
+        width: 80%;
+        padding: 1rem;
+    }
+}
+.blog-led-image{
+    text-align: center;
+    margin: 2rem;
+}
+.blog-led-image img {
+    width: 100%;
+}
+.led-blog-main-title {
+    font-weight: bold;
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.led-blog-section-title {
+    color: #555555;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.led-blog-branch-title {
+    color: #1976d2;
+    font-weight: bold;
+    font-size: 1.3rem;
+    margin-bottom: 0.7rem;
+}
+
+.led-blog-number-title {
+    color: #1976d2;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.led-blog-paragraph {
+    margin-bottom: 1.2rem;
+    font-size: 1.1rem;
+}
+
+.led-blog-paragraph-small {
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+}

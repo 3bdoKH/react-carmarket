@@ -1,0 +1,68 @@
+.car-services-area-cards {
+    display: flex;
+    gap: 1.5rem;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+.areas{
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    direction: rtl;
+}
+.car-service-card {
+    background: #fff;
+    border: 1.5px solid #eee;
+    border-radius: 12px;
+    min-width: 270px;
+    max-width: 320px;
+    padding: 1.5rem 1.2rem;
+    box-shadow: 0 2px 8px #0001;
+    cursor: pointer;
+    transition: box-shadow 0.2s, border 0.2s;
+    text-align: right;
+    position: relative;
+}
+
+.car-service-card:hover {
+    border: 1.5px solid #0070f3;
+    box-shadow: 0 4px 16px #0070f322;
+}
+
+.car-service-card .wrench-icon {
+    color: #0070f3;
+    font-size: 2.2rem;
+    position: absolute;
+    top: 1.2rem;
+    left: 1.2rem;
+}
+
+.car-service-card .city-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 0.2rem;
+}
+
+.car-service-card .service-count {
+    color: #888;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.car-service-card .areas-title {
+    color: #888;
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+}
+
+.car-service-card .areas-list {
+    color: #0070f3;
+    font-size: 1.05rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.7rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}

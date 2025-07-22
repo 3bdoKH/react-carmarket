@@ -1,0 +1,40 @@
+.city-page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 80vh;
+    background: #f8fafc;
+}
+
+.city-main-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #0070f3;
+  text-align: center;
+}
+
+.city-loading, .city-no-services {
+  text-align: center;
+  font-size: 1.3rem;
+  color: #888;
+  margin-top: 3rem;
+}
+
+.city-services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+@media (max-width: 700px) {
+  .city-main-title {
+    font-size: 1.4rem;
+  }
+  .city-services-grid {
+    gap: 1rem;
+  }
+  .city-page-container {
+    padding: 1rem 0.2rem 2rem 0.2rem;
+  }
+}
