@@ -5,17 +5,17 @@ import {
 } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 
-const Home = lazy(() => import('./pages/Home'));
-const Services = lazy(() => import('./pages/Services'));
-const Blog = lazy(() => import('./pages/Blog'));
-const About = lazy(() => import('./pages/About'));
-const Contact = lazy(() => import('./pages/Contact'));
-const ServiceDetails = lazy(() => import('./pages/service/ServiceDetails'));
-const Category = lazy(() => import('./pages/category/Category'));
-const City = lazy(() => import('./pages/city/City'));
-const BlogDetails = lazy(() => import('./pages/blog/BlogDetails'));
-const AdminDashboard = lazy(() => import('./pages/admin/Dashboard'));
-const AdminLogin = lazy(() => import('./pages/admin/Login'));
+const Home = lazy(() => import('./pages/Home.tsx'));
+const Services = lazy(() => import('./pages/Services.tsx'));
+const Blog = lazy(() => import('./pages/Blog.tsx'));
+const About = lazy(() => import('./pages/About.tsx'));
+const Contact = lazy(() => import('./pages/Contact.tsx'));
+const ServiceDetails = lazy(() => import('./pages/service/ServiceDetails.tsx'));
+const Category = lazy(() => import('./pages/category/Category.tsx'));
+const City = lazy(() => import('./pages/city/City.tsx'));
+const BlogDetails = lazy(() => import('./pages/blog/BlogDetails.tsx'));
+const AdminDashboard = lazy(() => import('./pages/admin/Dashboard.tsx'));
+const AdminLogin = lazy(() => import('./pages/admin/Login.tsx'));
 
 function App() {
   return (
