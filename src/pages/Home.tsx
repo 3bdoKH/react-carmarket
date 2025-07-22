@@ -14,15 +14,12 @@ import SponsorSlider from '../components/SponsorSlider';
 import '../styles/index.css';
 
 const Home = () => {
-    const [servicesByCategory, setServicesByCategory] = useState<Record<ServiceCategory, Service[]>>({} as any);
+    const [servicesByCategory, setServicesByCategory] = useState<Partial<Record<ServiceCategory, Service[]>>>({});
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchCategory, setSearchCategory] = useState<ServiceCategory | undefined>(undefined);
     const [searchCity, setSearchCity] = useState<string | undefined>(undefined);
-    const { t, i18n } = useTranslation('common');
-    const isArabic = i18n.language === 'ar';
-    // const metaTitle = isArabic ? 'كار ماركت - أفضل حلول العناية بالسيارات' : 'Car Market - Best Car Care Solutions';
-    // const metaDescription = isArabic ? 'اكتشف أفضل خدمات وصيانة السيارات بالقرب منك.' : 'Find the best car services, maintenance, and care solutions near you.';
+    const { t } = useTranslation('common');
     const handleSearch = (term: string, category?: ServiceCategory, city?: string) => {
         setSearchTerm(term);
         setSearchCategory(category);
@@ -142,7 +139,7 @@ const Home = () => {
         {Object.entries(filteredServicesByCategory).length === 0 ? (
             <div className="loading">No services found.</div>
         ) : (
-            Object.entries(filteredServicesByCategory).map(([category, services]) => (
+            Object.entries(filteredServicesByCategory).map(([category]) => (
                 <section key={category} className="category-section" id='categories'>
                     <div className="category-header">
                         <h2 className="category-title">

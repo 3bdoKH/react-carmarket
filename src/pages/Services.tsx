@@ -13,13 +13,7 @@ const ServicesPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchCategory, setSearchCategory] = useState<ServiceCategory | undefined>(undefined);
     const [searchCity, setSearchCity] = useState<string | undefined>(undefined);
-    const { t, i18n } = useTranslation('common');
-    const isArabic = i18n.language === 'ar';
-    // const metaTitle = isArabic ? 'كل الخدمات | كار ماركت' : 'All Services | Car Market';
-    // const metaDescription = isArabic ? 'تصفح جميع خدمات السيارات مع إمكانية التصفية حسب الفئة والبحث بالمدينة.' : 'Browse all car services with category filter and city search.';
-    // const metaOgImage = '/public/file.svg';
-    // const metaUrl = 'https://carmarket-eg.online/services';
-
+    const { t } = useTranslation('common');
     useEffect(() => {
         const fetchData = async () => {
         try {

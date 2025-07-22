@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Service } from '../../types/service';
 import ServiceForm from './ServiceForm';
+import './serviceList.css'
 interface ServiceListProps {
     services: Service[];
     onAdd: (data: Omit<Service, '_id'>) => Promise<void>;

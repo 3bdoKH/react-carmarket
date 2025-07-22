@@ -1,0 +1,15 @@
+
+.admin-dashboard-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fafafa;
+    min-height: 80vh;
+}
+
+.loading {
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+}

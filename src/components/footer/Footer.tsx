@@ -25,28 +25,28 @@ const categories = [
 ];
 
 const FeatureBar = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation('common');
     return (
         <div className="footer-feature-bar">
         <div className="footer-feature-item">
             <div className="footer-feature-icon"><FiTruck /></div>
             <div>
-            <div className="footer-feature-title">شحن سريع</div>
-            <div className="footer-feature-desc"> لأي مكان في مصر</div>
+            <div className="footer-feature-title">{t('fast-shpping')}</div>
+            <div className="footer-feature-desc">{t('to-any-place')}</div>
             </div>
         </div>
         <div className="footer-feature-item">
             <div className="footer-feature-icon"><FiRefreshCw /></div>
             <div>
-            <div className="footer-feature-title">عايز ترجع منتج؟</div>
-            <div className="footer-feature-desc"> دي أسهل حاجة عندنا</div>
+            <div className="footer-feature-title">{t('return')}</div>
+            <div className="footer-feature-desc">{t('easy')}</div>
             </div>
         </div>
         <div className="footer-feature-item">
             <div className="footer-feature-icon"><FiShield /></div>
             <div>
-            <div className="footer-feature-title">خدمة عملاء متخصصة</div>
-            <div className="footer-feature-desc"> خدمة عملاء متخصصة</div>
+            <div className="footer-feature-title">{t('customer-service')}</div>
+            <div className="footer-feature-desc">{t('customer-service')}</div>
             </div>
         </div>
         </div>
@@ -56,10 +56,6 @@ const FeatureBar = () => {
 const Footer: React.FC = () => {
     const { t, i18n } = useTranslation('common');
     const isArabic = i18n.language === 'ar';
-    const switchLanguage = () => {
-        const nextLocale = isArabic ? 'en' : 'ar';
-        i18n.changeLanguage(nextLocale);
-    };
     return (
         <>
         <FeatureBar />
@@ -123,7 +119,6 @@ const Footer: React.FC = () => {
                 </div>
             </div>
         </div>
-        {/* Bricks-style tags section below */}
         <div className="footer__tags-bricks" dir={isArabic ? 'rtl' : 'ltr'}>
             {categories.map((cat) => (
                 <span

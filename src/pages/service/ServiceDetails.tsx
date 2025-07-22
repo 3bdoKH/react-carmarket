@@ -6,8 +6,6 @@ import Header from "../../components/header/Header";
 import { useTranslation } from 'react-i18next';
 import Footer from "../../components/footer/Footer";
 export default function ServiceDetail() {
-    // const router = useRouter();
-    // const { id } = router.query;
     const { id } = useParams<{ id: string }>();
     const [service, setService] = useState<Service | null>(null);
     const [selectedImage, setSelectedImage] = useState(0);
@@ -24,9 +22,6 @@ export default function ServiceDetail() {
 
 
     if (!service) return <div className="service-loading">Loading...</div>;
-
-    // Removed metaTitle, metaDescription, metaOgImage, metaUrl as they are unused
-
     return (
         <>
 

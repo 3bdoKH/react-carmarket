@@ -1,4 +1,3 @@
-import React from 'react';
 import './adds.css'
 const adds = [
   {

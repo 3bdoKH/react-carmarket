@@ -1,7 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import type { Service, ServiceCategory } from '../../types/service';
 
-const categories: ServiceCategory[] = ['repair', 'carwash', 'spray', 'spare parts', 'tires', 'accessorize', 'showroom'];
+const categories: ServiceCategory[] = [
+    'repair',
+    'carwash',
+    'spray',
+    'spare parts',
+    'tires',
+    'accessorize',
+    'showroom',
+];
 
 interface ServiceFormProps {
     initialData?: Partial<Service>;
@@ -9,7 +17,11 @@ interface ServiceFormProps {
     onCancel: () => void;
 }
 
-export default function ServiceForm({ initialData, onSubmit, onCancel }: ServiceFormProps) {
+export default function ServiceForm({
+    initialData,
+    onSubmit,
+    onCancel,
+    }: ServiceFormProps) {
     const [formData, setFormData] = useState<Omit<Service, '_id'>>({
         name: '',
         address: '',
@@ -20,83 +32,41 @@ export default function ServiceForm({ initialData, onSubmit, onCancel }: Service
         images: [],
         logo: '',
         location: '',
-        social : [],
+        social: [],
         ...initialData,
         contact: initialData?.contact || [],
     });
 
     const [currentService, setCurrentService] = useState('');
     const [currentImage, setCurrentImage] = useState('');
-    const [social, setCurrentSocial] = useState('')
+    const [currentSocial, setCurrentSocial] = useState('');
     const [currentContact, setCurrentContact] = useState('');
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    ) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleAddService = () => {
-        if (currentService.trim()) {
-        setFormData(prev => ({
+    const handleAddItem = (
+        field: keyof Omit<Service, '_id'>,
+        value: string,
+        clearFn: () => void
+    ) => {
+        if (value.trim()) {
+        setFormData((prev) => ({
             ...prev,
-            servicesOffered: [...prev.servicesOffered, currentService.trim()]
+            [field]: [...(prev[field] as string[]), value.trim()],
         }));
-        setCurrentService('');
-        }
-    };
-    const handleAddSocial = () => {
-        if (social.trim()) {
-        setFormData(prev => ({
-            ...prev,
-            social: [...prev.social, social.trim()]
-        }));
-        setCurrentSocial('');
+        clearFn();
         }
     };
 
-    const handleRemoveSocial = (index: number) => {
-        setFormData(prev => ({
+    const handleRemoveItem = (field: keyof Omit<Service, '_id'>, index: number) => {
+        setFormData((prev) => ({
         ...prev,
-        social: prev.social.filter((_, i) => i !== index)
-        }));
-    };
-    const handleRemoveService = (index: number) => {
-        setFormData(prev => ({
-        ...prev,
-        servicesOffered: prev.servicesOffered.filter((_, i) => i !== index)
-        }));
-    };
-
-    const handleAddImage = () => {
-        if (currentImage.trim()) {
-            setFormData(prev => ({
-                ...prev,
-                images: [...(prev.images || []), currentImage.trim()]
-            }));
-            setCurrentImage('');
-        }
-    };
-
-    const handleRemoveImage = (index: number) => {
-        setFormData(prev => ({
-            ...prev,
-            images: (prev.images || []).filter((_, i) => i !== index)
-        }));
-    };
-
-    const handleAddContact = () => {
-        if (currentContact.trim()) {
-            setFormData(prev => ({
-                ...prev,
-                contact: [...(prev.contact || []), currentContact.trim()]
-            }));
-            setCurrentContact('');
-        }
-    };
-    const handleRemoveContact = (index: number) => {
-        setFormData(prev => ({
-            ...prev,
-            contact: (prev.contact || []).filter((_, i) => i !== index)
+        [field]: (prev[field] as string[]).filter((_, i) => i !== index),
         }));
     };
 
@@ -132,8 +102,10 @@ export default function ServiceForm({ initialData, onSubmit, onCancel }: Service
                 onChange={handleChange}
                 className="form-select"
             >
-                {categories.map(cat => (
-                <option key={cat} value={cat}>{cat}</option>
+                {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                    {cat}
+                </option>
                 ))}
             </select>
             </div>
@@ -150,6 +122,7 @@ export default function ServiceForm({ initialData, onSubmit, onCancel }: Service
             required
             />
         </div>
+
         <div className="form-group">
             <label className="form-label">City</label>
             <input
@@ -167,32 +140,32 @@ export default function ServiceForm({ initialData, onSubmit, onCancel }: Service
             <label className="form-label">Contact</label>
             <div className="form-inline">
                 <input
-                    type="text"
-                    value={currentContact}
-                    onChange={(e) => setCurrentContact(e.target.value)}
-                    className="form-input form-input-inline"
-                    placeholder="Add a contact (phone, email, etc.)"
+                type="text"
+                value={currentContact}
+                onChange={(e) => setCurrentContact(e.target.value)}
+                className="form-input form-input-inline"
+                placeholder="Add a contact"
                 />
                 <button
-                    type="button"
-                    onClick={handleAddContact}
-                    className="form-btn"
+                type="button"
+                onClick={() => handleAddItem('contact', currentContact, () => setCurrentContact(''))}
+                className="form-btn"
                 >
-                    Add
+                Add
                 </button>
             </div>
             <div className="chip-list">
-                {(formData.contact || []).map((contact, index) => (
-                    <span key={index} className="chip">
-                        {contact}
-                        <button
-                            type="button"
-                            onClick={() => handleRemoveContact(index)}
-                            className="chip-remove"
-                        >
-                            ×
-                        </button>
-                    </span>
+                {formData.contact.map((contact, index) => (
+                <span key={index} className="chip">
+                    {contact}
+                    <button
+                    type="button"
+                    onClick={() => handleRemoveItem('contact', index)}
+                    className="chip-remove"
+                    >
+                    ×
+                    </button>
+                </span>
                 ))}
             </div>
             </div>
@@ -202,39 +175,37 @@ export default function ServiceForm({ initialData, onSubmit, onCancel }: Service
             <input
                 type="text"
                 name="logo"
-                value={formData.logo || ''}
+                value={formData.logo}
                 onChange={handleChange}
                 className="form-input"
             />
             </div>
         </div>
 
-        {/* Images input section */}
         <div className="form-group">
             <label className="form-label">Image URLs</label>
             <div className="form-inline">
             <textarea
-                value={currentImage || ''}
+                value={currentImage}
                 onChange={(e) => setCurrentImage(e.target.value)}
                 className="form-input form-input-inline"
-                placeholder="Paste one or more image URLs, separated by spaces or newlines"
+                placeholder="Paste one or more image URLs"
                 rows={3}
             />
             <button
                 type="button"
                 onClick={() => {
-                    // Split by whitespace (spaces, newlines, tabs), remove empty, remove leading @ if present
-                    const urls = (currentImage || '')
-                        .split(/\s+/)
-                        .map(url => url.replace(/^@/, '').trim())
-                        .filter(Boolean);
-                    if (urls.length > 0) {
-                        setFormData(prev => ({
-                            ...prev,
-                            images: [...(prev.images || []), ...urls]
-                        }));
-                        setCurrentImage('');
-                    }
+                const urls = currentImage
+                    .split(/\s+/)
+                    .map((url) => url.trim())
+                    .filter(Boolean);
+                if (urls.length > 0) {
+                    setFormData((prev) => ({
+                    ...prev,
+                    images: [...(prev.images || []), ...urls],
+                    }));
+                    setCurrentImage('');
+                }
                 }}
                 className="form-btn"
             >
@@ -242,12 +213,12 @@ export default function ServiceForm({ initialData, onSubmit, onCancel }: Service
             </button>
             </div>
             <div className="chip-list">
-            {(formData.images || []).map((img, index) => (
+            {formData.images?.map((img, index) => (
                 <span key={index} className="chip">
                 {img}
                 <button
                     type="button"
-                    onClick={() => handleRemoveImage(index)}
+                    onClick={() => handleRemoveItem('images', index)}
                     className="chip-remove"
                 >
                     ×
@@ -258,14 +229,14 @@ export default function ServiceForm({ initialData, onSubmit, onCancel }: Service
         </div>
 
         <div className="form-group">
-            <label className="form-label">Location (Google Maps Embed URL)</label>
+            <label className="form-label">Location (Google Maps URL)</label>
             <input
-                type="text"
-                name="location"
-                value={formData.location}
-                onChange={handleChange}
-                className="form-input"
-                placeholder="Paste Google Maps embed URL here"
+            type="text"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            className="form-input"
+            placeholder="Paste embed URL"
             />
         </div>
 
@@ -280,8 +251,6 @@ export default function ServiceForm({ initialData, onSubmit, onCancel }: Service
             />
         </div>
 
-        
-
         <div className="form-group">
             <label className="form-label">Services Offered</label>
             <div className="form-inline">
@@ -294,7 +263,7 @@ export default function ServiceForm({ initialData, onSubmit, onCancel }: Service
             />
             <button
                 type="button"
-                onClick={handleAddService}
+                onClick={() => handleAddItem('servicesOffered', currentService, () => setCurrentService(''))}
                 className="form-btn"
             >
                 Add
@@ -306,7 +275,7 @@ export default function ServiceForm({ initialData, onSubmit, onCancel }: Service
                 {service}
                 <button
                     type="button"
-                    onClick={() => handleRemoveService(index)}
+                    onClick={() => handleRemoveItem('servicesOffered', index)}
                     className="chip-remove"
                 >
                     ×
@@ -315,31 +284,32 @@ export default function ServiceForm({ initialData, onSubmit, onCancel }: Service
             ))}
             </div>
         </div>
+
         <div className="form-group">
             <label className="form-label">Social Links</label>
             <div className="form-inline">
             <input
                 type="text"
-                value={social}
+                value={currentSocial}
                 onChange={(e) => setCurrentSocial(e.target.value)}
                 className="form-input form-input-inline"
                 placeholder="Add a social link"
             />
             <button
                 type="button"
-                onClick={handleAddSocial}
+                onClick={() => handleAddItem('social', currentSocial, () => setCurrentSocial(''))}
                 className="form-btn"
             >
                 Add
             </button>
             </div>
             <div className="chip-list">
-            {formData.social.map((social, index) => (
+            {formData.social.map((link, index) => (
                 <span key={index} className="chip">
-                {social}
+                {link}
                 <button
                     type="button"
-                    onClick={() => handleRemoveSocial(index)}
+                    onClick={() => handleRemoveItem('social', index)}
                     className="chip-remove"
                 >
                     ×
@@ -357,10 +327,7 @@ export default function ServiceForm({ initialData, onSubmit, onCancel }: Service
             >
             Cancel
             </button>
-            <button
-            type="submit"
-            className="form-btn form-btn-primary"
-            >
+            <button type="submit" className="form-btn form-btn-primary">
             {initialData?._id ? 'Update' : 'Create'}
             </button>
         </div>

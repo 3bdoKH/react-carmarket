@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { FiMapPin, FiPhone } from 'react-icons/fi';
 import type { Service } from '../../types/service';
