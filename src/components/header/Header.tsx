@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { ServiceCategory } from '../../types/service';
 import { useState, useEffect } from 'react';
 import './header.css';
-
+import { Link } from 'react-router-dom';
 interface HeaderProps {
   onSearch: (term: string, category?: ServiceCategory, city?: string) => void;
   search: boolean;
@@ -43,19 +43,19 @@ export default function Header({ onSearch, search, showCity = false }: HeaderPro
       <nav className={`site-nav${menuOpen ? ' open' : ''}`}>
         <ul className="nav-list">
           <li className="nav-item">
-            <a href="/" className="nav-link" onClick={() => setMenuOpen(false)}>{t('nav_home')}</a>
+            <Link to="/" className="nav-link" onClick={() => setMenuOpen(false)}>{t('nav_home')}</Link>
           </li>
           <li className="nav-item">
-            <a href="/about" className="nav-link" onClick={() => setMenuOpen(false)}>{t('nav_about')}</a>
+            <Link to="/about" className="nav-link" onClick={() => setMenuOpen(false)}>{t('nav_about')}</Link>
           </li>
           <li className="nav-item">
-            <a href="/contact" className="nav-link" onClick={() => setMenuOpen(false)}>{t('nav_contact')}</a>
+            <Link to="/contact" className="nav-link" onClick={() => setMenuOpen(false)}>{t('nav_contact')}</Link>
           </li>
           <li className="nav-item">
-            <a href="/blog" className="nav-link" onClick={() => setMenuOpen(false)}>{t('nav_blog')}</a>
+            <Link to="/blog" className="nav-link" onClick={() => setMenuOpen(false)}>{t('nav_blog')}</Link>
           </li>
           <li className="nav-item">
-            <a href="/services" className="nav-link" onClick={() => setMenuOpen(false)}>{t('nav_services')}</a>
+            <Link to="/services" className="nav-link" onClick={() => setMenuOpen(false)}>{t('nav_services')}</Link>
           </li>
           <li className="nav-item">
             <button onClick={handleLanguageSwitch} className="language-switch-btn">
