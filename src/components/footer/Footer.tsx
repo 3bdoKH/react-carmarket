@@ -88,8 +88,8 @@ const Footer: React.FC = () => {
                 <div className="footer__col">
                     <h4 className="footer__col-title">{t('about-title')}</h4>
                     <ul className="footer__col-list">
-                        <li><a href="/about/about" className="footer__col-link">{t('about-title')}</a></li>
-                        <li><a href="/contact/contact" className="footer__col-link">{t('about-contact-title')}</a></li>
+                        <li><a href="/about" className="footer__col-link">{t('about-title')}</a></li>
+                        <li><a href="/contact" className="footer__col-link">{t('about-contact-title')}</a></li>
                     </ul>
                 </div>
             </div>
@@ -98,7 +98,7 @@ const Footer: React.FC = () => {
                     <FiMail className="footer__contact-icon" />
                     <div>
                         <div className="footer__contact-label">{t('about-contact-title')}</div>
-                        <a href="mailto:info@emereld-marketing.online" className="footer__contact-email">info@emereld-marketing.online</a>
+                        <a href="mailto:support@emereld-marketing.online" className="footer__contact-email">support@emereld-marketing.online</a>
                     </div>
                 </div>
                 <div className="footer__lang-switcher">
