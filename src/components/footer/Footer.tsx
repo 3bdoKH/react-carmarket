@@ -94,6 +94,9 @@ const Footer: React.FC = () => {
                 </div>
             </div>
             <div className="footer__contact-lang">
+                <div style={{width:'260px'}}>
+                    <img src="../../public/car-market-high-resolution-logo-transparent.png" alt=""  style={{maxWidth:'100%'}}/>
+                </div>
                 <div className="footer__contact-block">
                     <FiMail className="footer__contact-icon" />
                     <div>

@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { getServicesByCategory } from '../../lib/api';
 import type { Service } from '../../types/service';
@@ -19,18 +19,23 @@ const CategoryPage = () => {
 
     useEffect(() => {
         setMounted(true);
+        return () => setMounted(false);
     }, []);
 
     useEffect(() => {
-        if (mounted && category && typeof category === 'string') {
+        if (mounted && category) {
             setLoading(true);
             getServicesByCategory(category)
-                .then(setServices)
-                .catch((err) => {
-                    setServices([]);
-                    console.error('Failed to fetch services:', err);
+                .then(data => {
+                    if (mounted) setServices(data);
                 })
-                .finally(() => setLoading(false));
+                .catch(err => {
+                    console.error('Failed to fetch services:', err);
+                    if (mounted) setServices([]);
+                })
+                .finally(() => {
+                    if (mounted) setLoading(false);
+                });
         }
     }, [category, mounted]);
 
@@ -39,28 +44,55 @@ const CategoryPage = () => {
         setSearchCity(city);
     };
 
-    const filteredServices = services.filter(service => {
-        const matchesTerm = service.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            service.description?.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesCity = searchCity && searchCity.trim() !== ''
-            ? (service.city && service.city.toLowerCase().includes(searchCity.toLowerCase()))
-            : true;
-        return matchesTerm && matchesCity;
-    });
+    const filteredServices = useMemo(() => {
+        return services.filter(service => {
+            const nameMatch = searchTerm 
+                ? service.name.toLowerCase().includes(searchTerm.toLowerCase())
+                : true;
+            
+            const descMatch = searchTerm && service.description
+                ? service.description.toLowerCase().includes(searchTerm.toLowerCase())
+                : false;
+            
+            const tagsMatch = searchTerm && service.servicesOffered
+                ? service.servicesOffered.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+                : false;
+            
+            const cityMatch = searchCity
+                ? service.city && service.city.toLowerCase().includes(searchCity.toLowerCase())
+                : true;
+            
+            return (nameMatch || descMatch || tagsMatch) || cityMatch;
+        });
+    }, [services, searchTerm, searchCity]);
 
-    if (!mounted || !category || typeof category !== 'string') {
+    if (!mounted || !category) {
         return null;
     }
 
     const isArabic = i18n.language === 'ar';
-    const categoryName = category === 'repair' ? t('repair') : category === 'carwash' ? t('carwash') : category === 'spray' ? t('spray') : category === 'spare parts' ? t('spare-parts') : category === 'tires' ? t('tires') : category === 'accessorize' ? t('accessorize') : category === 'showroom' ? t('showroom') : '';
-    const metaTitle = isArabic ? `خدمات ${categoryName} | كار ماركت` : `${categoryName} Services | Car Market`;
-    const metaDescription = isArabic ? `اكتشف أفضل خدمات ${categoryName} في منطقتك. احجز مع مقدمي خدمات موثوقين عبر كار ماركت.` : `Explore the best ${categoryName} services in your area. Book trusted providers for ${categoryName} with Car Market.`;
+    const categoryTranslations: Record<string, string> = {
+        'repair': t('repair'),
+        'carwash': t('carwash'),
+        'spray': t('spray'),
+        'spare parts': t('spare-parts'),
+        'tires': t('tires'),
+        'accessorize': t('accessorize'),
+        'showroom': t('showroom')
+    };
+
+    const categoryName = categoryTranslations[category] || '';
+    const metaTitle = isArabic 
+        ? `خدمات ${categoryName} | كار ماركت` 
+        : `${categoryName} Services | Car Market`;
+    const metaDescription = isArabic 
+        ? `اكتشف أفضل خدمات ${categoryName} في منطقتك. احجز مع مقدمي خدمات موثوقين عبر كار ماركت.` 
+        : `Explore the best ${categoryName} services in your area. Book trusted providers for ${categoryName} with Car Market.`;
     const metaOgImage = '/public/file.svg';
     const metaUrl = `https://yourdomain.com/category/${category}`;
 
     return (
-        <div className="home-container">
+        <div className="category-page-container">
             <Helmet>
                 <title>{metaTitle}</title>
                 <meta name="description" content={metaDescription} />
@@ -102,23 +134,53 @@ const CategoryPage = () => {
                     }}
                 />
             </Helmet>
-            <Header onSearch={handleSearch} search={true} showCity={true}/>
-            <h1 className="main-title">
-                {
-                    category === 'repair' ? t('repair') : category === 'carwash' ? t('carwash') : category === 'spray' ? t('spray') : category === 'spare parts' ? t('spare-parts') : category === 'tires' ? t('tires') : category === 'accessorize' ? t('accessorize') : category === 'showroom' ? t('showroom') : ""
-                } 
-            </h1>
-            {loading ? (
-                <div className="loading">Loading...</div>
-            ) : filteredServices.length === 0 ? (
-                <div className="loading">No services found in this category.</div>
-            ) : (
-                <div className="services-grid">
-                {filteredServices.map(service => (
-                    <ServiceCard key={service._id} service={service} />
-                ))}
-                </div>
-            )}
+
+            <Header 
+                onSearch={handleSearch} 
+                search={true} 
+                showCity={true}
+                immediateSearch={true}
+            />
+
+            <main className="category-content">
+                <h1 className="main-title">
+                    {categoryName}
+                    {filteredServices.length > 0 && (
+                        <span className="services-count">
+                            ({filteredServices.length} {t('services available')})
+                        </span>
+                    )}
+                </h1>
+
+                {loading ? (
+                    <div className="loading-spinner">{t('loading')}</div>
+                ) : filteredServices.length === 0 ? (
+                    <div className="no-results">
+                        <p>{t('no-services-found')}</p>
+                        {(searchTerm || searchCity) && (
+                            <button 
+                                className="clear-filters"
+                                onClick={() => {
+                                    setSearchTerm('');
+                                    setSearchCity(undefined);
+                                }}
+                            >
+                                {t('clear-filters')}
+                            </button>
+                        )}
+                    </div>
+                ) : (
+                    <div className="services-grid">
+                        {filteredServices.map(service => (
+                            <ServiceCard 
+                                key={service._id} 
+                                service={service} 
+                            />
+                        ))}
+                    </div>
+                )}
+            </main>
+
             <Footer />
         </div>
     );

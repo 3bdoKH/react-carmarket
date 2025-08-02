@@ -8,6 +8,7 @@ interface HeaderProps {
   onSearch: (term: string, category?: ServiceCategory, city?: string) => void;
   search: boolean;
   showCity?: boolean;
+  immediateSearch?: boolean;  
 }
 
 export default function Header({ onSearch, search, showCity = false }: HeaderProps) {

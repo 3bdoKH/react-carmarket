@@ -20,11 +20,13 @@ const Home = () => {
     const [searchCategory, setSearchCategory] = useState<ServiceCategory | undefined>(undefined);
     const [searchCity, setSearchCity] = useState<string | undefined>(undefined);
     const { t } = useTranslation('common');
+    
     const handleSearch = (term: string, category?: ServiceCategory, city?: string) => {
         setSearchTerm(term);
         setSearchCategory(category);
         setSearchCity(city);
     };
+
     const heroImages = [
         "/images/car-1.png",
         "/images/car-2.png",
@@ -44,51 +46,76 @@ const Home = () => {
         const interval = setInterval(() => {
             setFade(false); 
             setTimeout(() => {
-            setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length);
-            setFade(true); 
+                setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length);
+                setFade(true); 
             }, 500); 
         }, 3000);
         return () => clearInterval(interval);
     }, []);
 
-    const filteredServicesByCategory = useMemo(() => {
+    const filteredServicesByCategory = useMemo(() => {    
         const result: Record<string, Service[]> = {};
-        Object.entries(servicesByCategory).forEach(([cat, services]) => {
-            if (searchCategory && cat !== searchCategory) return;
+        
+        if (!searchTerm && !searchCategory && !searchCity) {
+            return randomServicesByCategory;
+        }
+    
+        Object.entries(servicesByCategory).forEach(([category, services]) => {
+    
+            if (searchCategory && category !== searchCategory) {
+                return;
+            }
+    
             const filtered = services.filter(service => {
-                const matchesTerm = service.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    service.description?.toLowerCase().includes(searchTerm.toLowerCase());
-                const matchesCity = searchCity && searchCity.trim() !== ''
-                    ? (service.city && service.city.toLowerCase().includes(searchCity.toLowerCase()))
+                const nameMatch = searchTerm 
+                    ? service.name.toLowerCase().includes(searchTerm.toLowerCase())
                     : true;
-                return matchesTerm && matchesCity;
+                
+                const descMatch = searchTerm && service.description
+                    ? service.description.toLowerCase().includes(searchTerm.toLowerCase())
+                    : false;
+                
+                const tagsMatch = searchTerm && service.servicesOffered
+                    ? service.servicesOffered.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+                    : false;
+                
+                const cityMatch = searchCity
+                    ? service.city && service.city.toLowerCase().includes(searchCity.toLowerCase())
+                    : true;
+                
+                const shouldInclude = (nameMatch || descMatch || tagsMatch) || cityMatch;
+                return shouldInclude;
             });
-            if (filtered.length > 0) result[cat] = filtered;
+    
+            if (filtered.length > 0) {
+                result[category] = filtered;
+            } else {
+                console.log(`No matching services in category ${category}`);
+            }
         });
         return result;
-    }, [servicesByCategory, searchTerm, searchCategory, searchCity]);
-
+    }, [servicesByCategory, searchTerm, searchCategory, searchCity, randomServicesByCategory]);
     useEffect(() => {
         const fetchData = async () => {
-        try {
-            const allServices = await getServices();
-            const grouped = allServices.reduce((acc, service) => {
-            acc[service.category] = acc[service.category] || [];
-            acc[service.category].push(service);
-            return acc;
-            }, {} as Record<ServiceCategory, Service[]>);
-            
-            setServicesByCategory(grouped);
-            const randoms: Record<string, Service[]> = {};
-            Object.entries(grouped).forEach(([cat, services]) => {
-                randoms[cat] = getRandomItems(services, 4);
-            });
-            setRandomServicesByCategory(randoms);
-        } catch (error) {
-            console.error('Error fetching services:', error);
-        } finally {
-            setLoading(false);
-        }
+            try {
+                const allServices = await getServices();
+                const grouped = allServices.reduce((acc, service) => {
+                    acc[service.category] = acc[service.category] || [];
+                    acc[service.category].push(service);
+                    return acc;
+                }, {} as Record<ServiceCategory, Service[]>);
+                
+                setServicesByCategory(grouped);
+                const randoms: Record<string, Service[]> = {};
+                Object.entries(grouped).forEach(([cat, services]) => {
+                    randoms[cat] = getRandomItems(services, 4);
+                });
+                setRandomServicesByCategory(randoms);
+            } catch (error) {
+                console.error('Error fetching services:', error);
+            } finally {
+                setLoading(false);
+            }
         };
 
         fetchData();
@@ -98,7 +125,8 @@ const Home = () => {
 
     return (
         <div className="home-container">
-            <Header onSearch={handleSearch} search={true} showCity={true} />
+            <Header onSearch={handleSearch} search={true} showCity={true} immediateSearch={true} />
+            
             <section className="hero-section-with-image">
                 <div className="hero-text-content">
                     <h1 className="website-title" style={{
@@ -109,7 +137,10 @@ const Home = () => {
                         marginBottom: '0.5em',
                         letterSpacing: '2px',
                         fontFamily: 'Segoe UI, Arial, sans-serif',
-                    }}>{t('website-title')}</h1>
+                    }}>
+                        <a href="https://fontmeme.com/signature-fonts/"><img src="https://fontmeme.com/permalink/250722/3f0ce8500e16126e79728b4e587fb206.png" alt="signature-fonts" /></a>
+                        <a href="https://fontmeme.com/signature-fonts/"><img src="https://fontmeme.com/permalink/250722/4002f5bb557b1f31966ff4192d5a44d8.png" alt="signature-fonts" /></a>
+                    </h1>
                     <h1 className="hero-title">{t('hero-title')}</h1>
                     <p className="hero-desc">{t('hero-desc')}</p>
                     <a href="#categories" className="hero-cta">{t('hero-cta')}</a>
@@ -125,7 +156,7 @@ const Home = () => {
                 </div>
             </section>
 
-            <div style={{ textAlign: 'center', margin: '5rem 0 1rem 0', fontWeight: 'bold', fontSize: '1.3rem', color: '#0070f3' }}>
+            <div style={{ textAlign: 'center', margin: '5rem auto 1rem auto', fontWeight: 'bold', fontSize: '1.3rem'}} className='sponser-title'>
                 {t('sponsor-slider-phrase')}
             </div>
             <SponsorSlider />
@@ -134,41 +165,47 @@ const Home = () => {
             <CarServicesArea />
             <Adds />
 
-        <h1 className="main-title">{t('main-title')}</h1>
-        
-        {Object.entries(filteredServicesByCategory).length === 0 ? (
-            <div className="loading">No services found.</div>
-        ) : (
-            Object.entries(filteredServicesByCategory).map(([category]) => (
-                <section key={category} className="category-section" id='categories'>
-                    <div className="category-header">
-                        <h2 className="category-title">
-                            {
-                                category === 'repair' ? t('repair') : category === 'carwash' ? t('carwash') : category === 'spray' ? t('spray') : category === 'spare parts' ? t('spare-parts') : category === 'tires' ? t('tires') : category === 'accessorize' ? t('accessorize') : category === 'showroom' ? t('showroom') : ""
-                            } 
-                        </h2>
-                        <a 
-                            href={`/category/${category}`} 
-                            className="button"
-                            style={{
-                                textDecoration:'none'
-                            }}
-                        >
-                            {t('category-button')}
-                        </a>
-                    </div>
-                    
-                    <div className="services-grid">
-                        {(randomServicesByCategory[category] || []).map((service) => (
-                            <ServiceCard key={service._id} service={service} />
-                        ))}
-                    </div>
-                </section>
-            ))
-        )}
-        <Footer />
+            <h1 className="main-title">
+                {searchTerm || searchCategory || searchCity 
+                    ? t('search-results') 
+                    : t('main-title')}
+            </h1>
+            
+            {Object.entries(filteredServicesByCategory).length === 0 ? (
+                <div className="loading">{t('no-services-found')}</div>
+            ) : (
+                Object.entries(filteredServicesByCategory).map(([category, services]) => (
+                    <section key={category} className="category-section" id='categories'>
+                        <div className="category-header">
+                            <h2 className="category-title">
+                                {category === 'repair' ? t('repair') : 
+                                    category === 'carwash' ? t('carwash') : 
+                                    category === 'spray' ? t('spray') : 
+                                    category === 'spare parts' ? t('spare-parts') : 
+                                    category === 'tires' ? t('tires') : 
+                                    category === 'accessorize' ? t('accessorize') : 
+                                    category === 'showroom' ? t('showroom') : ""}
+                            </h2>
+                            <a 
+                                href={`/category/${category}`} 
+                                className="button"
+                                style={{ textDecoration: 'none' }}
+                            >
+                                {t('category-button')}
+                            </a>
+                        </div>
+                        
+                        <div className="services-grid">
+                            {services.map((service) => (
+                                <ServiceCard key={service._id} service={service} />
+                            ))}
+                        </div>
+                    </section>
+                ))
+            )}
+            <Footer />
         </div>
     );
 }
 
-export default Home; 
+export default Home;

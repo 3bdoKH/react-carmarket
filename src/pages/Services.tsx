@@ -14,17 +14,18 @@ const ServicesPage = () => {
     const [searchCategory, setSearchCategory] = useState<ServiceCategory | undefined>(undefined);
     const [searchCity, setSearchCity] = useState<string | undefined>(undefined);
     const { t } = useTranslation('common');
+
     useEffect(() => {
         const fetchData = async () => {
-        try {
-            const allServices = await getServices();
-            setServices(allServices);
-        } catch (error) {
-            setServices([]);
-            console.error('Error fetching services:', error);
-        } finally {
-            setLoading(false);
-        }
+            try {
+                const allServices = await getServices();
+                setServices(allServices);
+            } catch (error) {
+                setServices([]);
+                console.error('Error fetching services:', error);
+            } finally {
+                setLoading(false);
+            }
         };
         fetchData();
     }, []);
@@ -35,39 +36,72 @@ const ServicesPage = () => {
         setSearchCity(city);
     };
 
-    const filteredServices = useMemo(() => {
+    const filteredServices = useMemo(() => {        
         return services.filter(service => {
-        const matchesTerm = service.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            service.description?.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesCategory = searchCategory ? service.category === searchCategory : true;
-        const matchesCity = searchCity && searchCity.trim() !== ''
-            ? (service.city && service.city.toLowerCase().includes(searchCity.toLowerCase()))
-            : true;
-        return matchesTerm && matchesCategory && matchesCity;
+            const nameMatch = searchTerm 
+                ? service.name.toLowerCase().includes(searchTerm.toLowerCase())
+                : true;
+            
+            const descMatch = searchTerm && service.description
+                ? service.description.toLowerCase().includes(searchTerm.toLowerCase())
+                : false;
+            
+            const tagsMatch = searchTerm && service.servicesOffered
+                ? service.servicesOffered.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+                : false;
+            
+            const categoryMatch = searchCategory
+                ? service.category === searchCategory
+                : true;
+            
+            const cityMatch = searchCity
+                ? service.city && service.city.toLowerCase().includes(searchCity.toLowerCase())
+                : true;
+            return (nameMatch || descMatch || tagsMatch || cityMatch) && categoryMatch;
         });
     }, [services, searchTerm, searchCategory, searchCity]);
 
     return (
         <div className="services-page-container">
-        {/* Meta tags can be handled with react-helmet-async or manually in index.html */}
-        <Header onSearch={handleSearch} search={true} showCity={true} />
-        <h1 className="services-main-title">{t('all-services')}</h1>
-        <div className="services-searchbar-wrapper">
-        </div>
-        {loading ? (
-            <div className="services-loading">{t('loading')}</div>
-        ) : filteredServices.length === 0 ? (
-            <div className="services-no-results">{t('no-services-found')}</div>
-        ) : (
-            <div className="all-services-grid">
-            {filteredServices.map(service => (
-                <ServiceCard key={service._id} service={service} />
-            ))}
+            <Header 
+                onSearch={handleSearch} 
+                search={true} 
+                showCity={true} 
+                immediateSearch={true}  // Enable immediate search as you type
+            />
+            
+            <h1 className="services-main-title">
+                {searchTerm || searchCategory || searchCity 
+                    ? t('search-results') 
+                    : t('all-services')}
+            </h1>
+            
+            <div className="services-searchbar-wrapper">
+                {/* You can add additional search controls here if needed */}
             </div>
-        )}
-        <Footer />
+            
+            {loading ? (
+                <div className="services-loading">{t('loading')}</div>
+            ) : filteredServices.length === 0 ? (
+                <div className="services-no-results">
+                    {t('no-services-found')}
+                    {(searchTerm || searchCity) && (
+                        <p className="search-suggestions">
+                            Try different search terms or broaden your filters
+                        </p>
+                    )}
+                </div>
+            ) : (
+                <div className="all-services-grid">
+                    {filteredServices.map(service => (
+                        <ServiceCard key={service._id} service={service} />
+                    ))}
+                </div>
+            )}
+            
+            <Footer />
         </div>
     );
 }
 
-export default ServicesPage; 
+export default ServicesPage;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Service, ServiceCategory } from '../../types/service';
-
+import './serviceForm.css'
 const categories: ServiceCategory[] = [
     'repair',
     'carwash',

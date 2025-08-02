@@ -43,7 +43,13 @@ const CityServicesPage = () => {
                 <meta property="og:url" content={metaUrl} />
             </Helmet>
             <Header onSearch={() => {}} search={true} showCity={false} />
-            <h1 className="city-main-title">Car Services In  {city}</h1>
+            {
+                localStorage.getItem('lang') === 'ar' ? 
+                <h1 className="city-main-title">خدمات السيارات في {city}</h1> :
+                <h1 className="city-main-title">Car Services In {
+                    city === 'القاهرة' ? 'Cairo' : city === 'الجيزة' ? 'Giza' : 'Alexanderia'
+                }</h1>
+            }
             {loading ? (
                 <div className="city-loading">Loading...</div>
             ) : services.length === 0 ? (
