@@ -1,15 +1,240 @@
-
-.admin-dashboard-container {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    background-color: #fafafa;
-    min-height: 80vh;
+.admin-dashboard {
+    display: flex;
+    min-height: 100vh;
+    background: #f8fafc;
 }
 
-.loading {
-    padding: 20px;
+.admin-main-content {
+    flex: 1;
+    margin-left: 280px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: margin-left 0.3s ease;
+}
+
+.admin-main-content.sidebar-collapsed {
+    margin-left: 70px;
+}
+
+.admin-header {
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.admin-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.admin-content {
+    flex: 1;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.services-management {
+    padding: 1.5rem 2rem;
+}
+
+.services-filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-container {
+    flex: 1;
+    min-width: 300px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: white;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.category-filter {
+    min-width: 200px;
+}
+
+.category-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.category-select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.analytics-placeholder,
+.settings-placeholder {
+    padding: 2rem;
     text-align: center;
-    font-size: 18px;
-    color: #333;
+    color: #6b7280;
+}
+
+.analytics-placeholder h2,
+.settings-placeholder h2 {
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.admin-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #f8fafc;
+    gap: 1rem;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #e5e7eb;
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.admin-loading p {
+    color: #6b7280;
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .admin-main-content {
+        margin-left: 0;
+    }
+
+    .admin-header {
+        padding: 1rem 1.5rem;
+    }
+
+    .services-management {
+        padding: 1rem 1.5rem;
+    }
+
+    .services-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-container {
+        min-width: auto;
+    }
+
+    .category-filter {
+        min-width: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-dashboard {
+        flex-direction: column;
+    }
+
+    .admin-main-content {
+        margin-left: 0;
+    }
+
+    .admin-header {
+        padding: 1rem;
+    }
+
+    .admin-title {
+        font-size: 1.5rem;
+    }
+
+    .services-management {
+        padding: 1rem;
+    }
+
+    .services-filters {
+        gap: 0.75rem;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .admin-dashboard {
+        background: #111827;
+    }
+
+    .admin-header {
+        background: #1f2937;
+        border-bottom-color: #374151;
+    }
+
+    .admin-title {
+        color: #f9fafb;
+    }
+
+    .search-input,
+    .category-select {
+        background: #374151;
+        border-color: #4b5563;
+        color: #f9fafb;
+    }
+
+    .search-input:focus,
+    .category-select:focus {
+        border-color: #667eea;
+    }
+
+    .analytics-placeholder,
+    .settings-placeholder {
+        color: #9ca3af;
+    }
+
+    .analytics-placeholder h2,
+    .settings-placeholder h2 {
+        color: #f9fafb;
+    }
+
+    .admin-loading {
+        background: #111827;
+    }
+
+    .admin-loading p {
+        color: #9ca3af;
+    }
 }
