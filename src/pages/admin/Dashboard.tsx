@@ -15,6 +15,7 @@ const Dashboard = () => {
     const [currentView, setCurrentView] = useState<DashboardView>('overview');
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
+    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -98,9 +99,10 @@ const Dashboard = () => {
                 currentView={currentView}
                 onViewChange={setCurrentView}
                 onLogout={handleLogout}
+                onSidebarToggle={setIsSidebarCollapsed}
             />
             
-            <main className="admin-main-content">
+            <main className={`admin-main-content ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
                 <div className="admin-header">
                     <h1 className="admin-title">
                         {currentView === 'overview' && 'Dashboard Overview'}

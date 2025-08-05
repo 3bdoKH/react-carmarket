@@ -30,6 +30,7 @@ export default function ServiceForm({
         category: 'repair',
         servicesOffered: [],
         images: [],
+        videoUrl: '',
         logo: '',
         location: '',
         social: [],
@@ -226,6 +227,21 @@ export default function ServiceForm({
                 </span>
             ))}
             </div>
+        </div>
+
+        <div className="form-group">
+            <label className="form-label">Video URL</label>
+            <input
+                type="text"
+                name="videoUrl"
+                value={formData.videoUrl}
+                onChange={handleChange}
+                className="form-input"
+                placeholder="YouTube, Vimeo, or direct video URL"
+            />
+            <small className="form-help">
+                Supports YouTube, Vimeo, and direct video URLs. For YouTube, use format: https://www.youtube.com/watch?v=VIDEO_ID
+            </small>
         </div>
 
         <div className="form-group">

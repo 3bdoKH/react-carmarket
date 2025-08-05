@@ -231,9 +231,30 @@
 
 /* Responsive design */
 @media (max-width: 1024px) {
+    .dashboard-overview {
+        padding: 1rem;
+    }
+
     .overview-sections {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+}
+
+/* When sidebar is collapsed, adjust content spacing */
+@media (min-width: 1025px) {
+    .admin-main-content.sidebar-collapsed .dashboard-overview {
+        padding: 1rem;
+    }
+
+    .admin-main-content.sidebar-collapsed .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
     }
 }
 

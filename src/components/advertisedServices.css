@@ -1,0 +1,235 @@
+.advertised-services-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 2rem 0;
+}
+
+.advertised-services-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.advertised-services-header h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #0070f3;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 8px #b3d1ff;
+}
+
+.advertised-services-header p {
+    font-size: 1.1rem;
+    color: #666;
+    margin: 0;
+}
+
+.advertised-services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.advertised-service-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid #e0e0e0;
+    max-width: 350px;
+    margin: auto;
+}
+
+.advertised-service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 112, 243, 0.2);
+    border-color: #0070f3;
+}
+
+.service-image-container {
+    height: 200px;
+    background: linear-gradient(135deg, #0070f3, #00a6ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.service-logo-ad {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.service-logo-placeholder {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.service-content {
+    padding: 1.5rem;
+}
+
+.service-name {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+}
+
+.service-category {
+    display: inline-block;
+    background: #0070f3;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: capitalize;
+    margin-bottom: 1rem;
+}
+
+.service-description {
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.service-location {
+    display: flex;
+    align-items: center;
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.location-icon {
+    margin-right: 0.5rem;
+    font-size: 1rem;
+}
+
+.service-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.view-service-btn,
+.contact-btn {
+    padding: 0.7rem 1.2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    flex: 1;
+    text-align: center;
+    min-width: 120px;
+}
+
+.view-service-btn {
+    background: #0070f3;
+    color: white;
+    border: 2px solid #0070f3;
+}
+
+.view-service-btn:hover {
+    background: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.contact-btn {
+    background: white;
+    color: #0070f3;
+    border: 2px solid #0070f3;
+}
+
+.contact-btn:hover {
+    background: #0070f3;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.error {
+    text-align: center;
+    padding: 2rem;
+    color: #e74c3c;
+    font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .advertised-services-container {
+        width: 95%;
+        margin: 2rem auto;
+        padding: 1rem 0;
+    }
+
+    .advertised-services-header h2 {
+        font-size: 2rem;
+    }
+
+    .advertised-services-header p {
+        font-size: 1rem;
+    }
+
+    .advertised-services-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .service-content {
+        padding: 1rem;
+    }
+
+    .service-name {
+        font-size: 1.2rem;
+    }
+
+    .service-actions {
+        flex-direction: column;
+    }
+
+    .view-service-btn,
+    .contact-btn {
+        flex: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .advertised-services-header h2 {
+        font-size: 1.8rem;
+    }
+
+    .service-image-container {
+        height: 150px;
+    }
+
+    .service-logo-placeholder {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+}

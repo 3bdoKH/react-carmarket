@@ -52,5 +52,9 @@
     "nav_blog" : "الأخبار",
     "nav_services" : "مراكز الصيانة",
     "all-services" : "أفضل مراكز صيانة سيارات في مصر",
-    "sponsor-slider-phrase" : "شكر خاص لداعمينا "
+    "sponsor-slider-phrase" : "شكر خاص لداعمينا ",
+    "open" : "مفتوح",
+    "closed" : "مغلق",
+    "more" : "المزيد",
+    "search-city" : "اكتب اي شيء للبحث..."
 }

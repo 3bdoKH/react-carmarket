@@ -52,5 +52,9 @@
     "nav_blog" : "News",
     "nav_services" : "Service Centers",
     "all-services" : "All Services Available",
-    "sponsor-slider-phrase" : "Our Proud Sponsers"
+    "sponsor-slider-phrase" : "Our Proud Sponsers",
+    "open" : "Open",
+    "closed" : "Closed",
+    "more" : "more",
+    "search-city" : "Type anything to search..."
 }

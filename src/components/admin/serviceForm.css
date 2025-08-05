@@ -19,7 +19,7 @@
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 2rem;
   margin-bottom: 1rem;
 }
 
@@ -59,6 +59,15 @@
 .form-textarea {
   resize: vertical;
   min-height: 100px;
+}
+
+.form-help {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+  line-height: 1.4;
+  font-style: italic;
 }
 
 .form-inline {
@@ -333,6 +342,10 @@
   .form-select:focus,
   .form-textarea:focus {
     border-color: #667eea;
+  }
+
+  .form-help {
+    color: #9ca3af;
   }
 
   .form-section {

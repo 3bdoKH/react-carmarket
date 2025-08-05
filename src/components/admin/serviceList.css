@@ -219,6 +219,35 @@
   font-style: italic;
 }
 
+/* Service ID */
+.service-id {
+  display: flex;
+  align-items: center;
+}
+
+.id-text {
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  border: 1px solid #e5e7eb;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  cursor: help;
+  transition: all 0.2s ease;
+}
+
+.id-text:hover {
+  background: #e5e7eb;
+  border-color: #d1d5db;
+  transform: scale(1.02);
+}
+
 /* Contact info */
 .contact-info {
   display: flex;
@@ -431,7 +460,7 @@
   }
 
   .services-table {
-    min-width: 800px;
+    min-width: 700px;
   }
 
   .action-buttons {
@@ -444,6 +473,11 @@
     width: 28px;
     height: 28px;
     font-size: 0.9rem;
+  }
+
+  .id-text {
+    max-width: 150px;
+    font-size: 0.75rem;
   }
 }
 

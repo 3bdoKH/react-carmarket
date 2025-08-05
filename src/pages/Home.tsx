@@ -11,6 +11,7 @@ import BestCategories from '../components/BestCategories';
 import CarServicesArea from '../components/CarServicesArea';
 import Adds from '../components/Adds';
 import SponsorSlider from '../components/SponsorSlider';
+import AdvertisedServices from '../components/AdvertisedServices';
 import '../styles/index.css';
 
 const Home = () => {
@@ -160,6 +161,7 @@ const Home = () => {
                 {t('sponsor-slider-phrase')}
             </div>
             <SponsorSlider />
+            <AdvertisedServices serviceIds={['6891a519f07572032e6a86fc']} />
             <BestCategories />
             <BrandSlider />
             <CarServicesArea />

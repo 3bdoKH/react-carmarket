@@ -7,10 +7,17 @@ interface AdminSidebarProps {
     currentView: DashboardView;
     onViewChange: (view: DashboardView) => void;
     onLogout: () => void;
+    onSidebarToggle?: (isCollapsed: boolean) => void;
 }
 
-const AdminSidebar = ({ currentView, onViewChange, onLogout }: AdminSidebarProps) => {
+const AdminSidebar = ({ currentView, onViewChange, onLogout, onSidebarToggle }: AdminSidebarProps) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
+
+    const handleToggle = () => {
+        const newCollapsedState = !isCollapsed;
+        setIsCollapsed(newCollapsedState);
+        onSidebarToggle?.(newCollapsedState);
+    };
 
     const menuItems = [
         {
@@ -24,18 +31,6 @@ const AdminSidebar = ({ currentView, onViewChange, onLogout }: AdminSidebarProps
             label: 'Services',
             icon: '🔧',
             description: 'Manage services'
-        },
-        {
-            id: 'analytics' as DashboardView,
-            label: 'Analytics',
-            icon: '📈',
-            description: 'View analytics'
-        },
-        {
-            id: 'settings' as DashboardView,
-            label: 'Settings',
-            icon: '⚙️',
-            description: 'Admin settings'
         }
     ];
 
@@ -48,7 +43,7 @@ const AdminSidebar = ({ currentView, onViewChange, onLogout }: AdminSidebarProps
                 </div>
                 <button 
                     className="collapse-btn"
-                    onClick={() => setIsCollapsed(!isCollapsed)}
+                    onClick={handleToggle}
                     aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
                 >
                     {isCollapsed ? '→' : '←'}

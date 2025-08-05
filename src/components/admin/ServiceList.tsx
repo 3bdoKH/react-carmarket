@@ -93,8 +93,7 @@ export default function ServiceList({ services, onAdd, onUpdate, onDelete }: Ser
                                 <th>Service</th>
                                 <th>Category</th>
                                 <th>Location</th>
-                                <th>Services Offered</th>
-                                <th>Contact</th>
+                                <th>Service ID</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -102,7 +101,7 @@ export default function ServiceList({ services, onAdd, onUpdate, onDelete }: Ser
                             {services.map(service => (
                                 <tr key={service._id} className="service-row">
                                     {editingId === service._id ? (
-                                        <td colSpan={6} className="edit-cell">
+                                        <td colSpan={5} className="edit-cell">
                                             <ServiceForm
                                                 initialData={service}
                                                 onSubmit={async (data) => {
@@ -142,31 +141,8 @@ export default function ServiceList({ services, onAdd, onUpdate, onDelete }: Ser
                                                 </div>
                                             </td>
                                             <td>
-                                                <div className="services-offered">
-                                                    {service.servicesOffered.slice(0, 3).map((item, i) => (
-                                                        <span key={i} className="service-tag">
-                                                            {item}
-                                                        </span>
-                                                    ))}
-                                                    {service.servicesOffered.length > 3 && (
-                                                        <span className="more-services">
-                                                            +{service.servicesOffered.length - 3} more
-                                                        </span>
-                                                    )}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div className="contact-info">
-                                                    {service.contact.slice(0, 2).map((contact, i) => (
-                                                        <span key={i} className="contact-item">
-                                                            {contact}
-                                                        </span>
-                                                    ))}
-                                                    {service.contact.length > 2 && (
-                                                        <span className="more-contacts">
-                                                            +{service.contact.length - 2} more
-                                                        </span>
-                                                    )}
+                                                <div className="service-id">
+                                                    <span className="id-text">{service._id}</span>
                                                 </div>
                                             </td>
                                             <td>

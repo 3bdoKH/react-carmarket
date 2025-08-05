@@ -10,6 +10,7 @@ export interface Service {
     category: ServiceCategory;
     servicesOffered: string[];
     images?: string[];
+    videoUrl?: string;
     logo?: string; 
     location: string;
     social : string[];

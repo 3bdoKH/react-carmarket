@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { ServiceCategory } from '../../types/service';
 import { useTranslation } from 'react-i18next';
 import './searchBar.css';
@@ -29,20 +29,36 @@ export default function SearchBar({
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<ServiceCategory | 'all'>('all');
     const [city, setCity] = useState('');
+    const [isFocused, setIsFocused] = useState(false);
+    const searchInputRef = useRef<HTMLInputElement>(null);
     const { t } = useTranslation('common');
 
     const handleSearch = () => {
-        // Combine searchTerm and city into a single search term
-        // If city is specified, it will be included in the search
         const combinedSearchTerm = showCity && city 
             ? `${searchTerm} ${city}`.trim() 
             : searchTerm;
         
         onSearch(
-            combinedSearchTerm, // Send combined term
+            combinedSearchTerm,
             selectedCategory === 'all' ? undefined : selectedCategory,
             showCity ? city : undefined
         );
+    };
+
+    const handleClearSearch = () => {
+        setSearchTerm('');
+        setCity('');
+        if (searchInputRef.current) {
+            searchInputRef.current.focus();
+        }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            handleSearch();
+        } else if (e.key === 'Escape') {
+            handleClearSearch();
+        }
     };
 
     useEffect(() => {
@@ -55,56 +71,95 @@ export default function SearchBar({
         }
     }, [searchTerm, selectedCategory, city, immediateSearch]);
 
+    const hasSearchContent = searchTerm.trim() || city.trim();
+
     return (
-        <div className="searchbar">
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+        <div className={`searchbar ${isFocused ? 'focused' : ''}`}>
+            <div className="searchbar-content">
                 {search && (
-                    <input
-                        type="text"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder={t('search-services') || 'Search services...'}
-                        className="searchbar-input"
-                        style={{ minWidth: 160 }}
-                        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                    />
+                    <div className="searchbar-input-group">
+                        <span className="searchbar-icon">🔍</span>
+                        <input
+                            ref={searchInputRef}
+                            type="text"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            placeholder={t('search-services') || 'Search services...'}
+                            className="searchbar-input"
+                            onKeyDown={handleKeyDown}
+                            onFocus={() => setIsFocused(true)}
+                            onBlur={() => setIsFocused(false)}
+                            aria-label="Search for services"
+                        />
+                        {searchTerm && (
+                            <button 
+                                onClick={handleClearSearch}
+                                className="searchbar-clear"
+                                aria-label="Clear search"
+                            >
+                                ✕
+                            </button>
+                        )}
+                    </div>
                 )}
 
-                <select
-                    value={selectedCategory}
-                    onChange={(e) => {
-                        const value = e.target.value as ServiceCategory | 'all';
-                        setSelectedCategory(value);
-                        if (immediateSearch) {
-                            handleSearch(); // Use the combined search handler
-                        }
-                    }}
-                    className="searchbar-select"
-                >
-                    <option value="all">{t('all-categories')}</option>
-                    {categories.map((category) => (
-                        <option key={category} value={category}>
-                            {t(category.replace(' ', '-'))}
-                        </option>
-                    ))}
-                </select>
+                <div className="searchbar-filters">
+                    <select
+                        value={selectedCategory}
+                        onChange={(e) => {
+                            const value = e.target.value as ServiceCategory | 'all';
+                            setSelectedCategory(value);
+                            if (immediateSearch) {
+                                handleSearch();
+                            }
+                        }}
+                        className="searchbar-select"
+                        aria-label="Select service category"
+                    >
+                        <option value="all">{t('all-categories') || 'All Categories'}</option>
+                        {categories.map((category) => (
+                            <option key={category} value={category}>
+                                {t(category.replace(' ', '-')) || category}
+                            </option>
+                        ))}
+                    </select>
 
-                {showCity && (
-                    <input
-                        type="text"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                        placeholder={'Search for a service'}
-                        className="searchbar-input"
-                        style={{ minWidth: 120 }}
-                        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                    />
-                )}
+                    {showCity && (
+                        <div className="searchbar-input-group">
+                            <span className="searchbar-icon">📍</span>
+                            <input
+                                type="text"
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}
+                                placeholder={t('search-city') || 'City or location...'}
+                                className="searchbar-input"
+                                onKeyDown={handleKeyDown}
+                                onFocus={() => setIsFocused(true)}
+                                onBlur={() => setIsFocused(false)}
+                                aria-label="Search by city or location"
+                            />
+                            {city && (
+                                <button 
+                                    onClick={() => setCity('')}
+                                    className="searchbar-clear"
+                                    aria-label="Clear city"
+                                >
+                                    ✕
+                                </button>
+                            )}
+                        </div>
+                    )}
+                </div>
             </div>
 
             {!immediateSearch && (
-                <button onClick={handleSearch} className="searchbar-btn">
-                    {t('search')}
+                <button 
+                    onClick={handleSearch} 
+                    className={`searchbar-btn ${hasSearchContent ? 'has-content' : ''}`}
+                    aria-label="Search services"
+                >
+                    <span className="searchbar-btn-icon">🔍</span>
+                    <span className="searchbar-btn-text">{t('search') || 'Search'}</span>
                 </button>
             )}
         </div>

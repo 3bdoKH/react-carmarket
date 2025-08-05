@@ -44,7 +44,7 @@
 
 .services-filters {
     display: flex;
-    gap: 1rem;
+    gap: 3rem;
     margin-bottom: 2rem;
     align-items: center;
     flex-wrap: wrap;
@@ -173,6 +173,10 @@
     }
 
     .admin-main-content {
+        margin-left: 0;
+    }
+
+    .admin-main-content.sidebar-collapsed {
         margin-left: 0;
     }
 
