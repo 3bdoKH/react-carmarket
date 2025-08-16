@@ -943,9 +943,10 @@ html {
 
   .hero-cta-primary,
   .hero-cta-secondary {
-    width: 100%;
+    width: 80%;
     max-width: 300px;
     justify-content: center;
+    margin: auto;
   }
 
   .hero-stats {
