@@ -152,7 +152,7 @@ const Home = () => {
                                 <span className="hero-title-highlight">{t('hero-title-highlight', 'Car Service')}</span>
                                 <span className="hero-title-suffix">{t('hero-title-suffix', 'Partner')}</span>
                             </span>
-                        </h1>
+                    </h1>
 
                         {/* Description */}
                         <p className="hero-description">
@@ -211,14 +211,14 @@ const Home = () => {
                             <div className="hero-image-background">
                                 <div className="hero-image-bg-gradient"></div>
                                 <div className="hero-image-bg-pattern"></div>
-                            </div>
-                            <div className="hero-image-wrapper">
-                                <img
-                                    src={heroImages[currentHeroIndex]}
+                </div>
+                <div className="hero-image-wrapper">
+                    <img
+                        src={heroImages[currentHeroIndex]}
                                     alt="Premium Car Service"
                                     className={`hero-main-image ${fade ? "fade-in" : "fade-out"}`}
-                                    key={heroImages[currentHeroIndex]} 
-                                />
+                        key={heroImages[currentHeroIndex]} 
+                    />
                                 <div className="hero-image-glow"></div>
                             </div>
                         </div>

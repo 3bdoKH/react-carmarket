@@ -4,7 +4,8 @@ html {
 }
 
 .home-container {
-  margin: 0 auto;
+  max-width: 100%;
+  margin: 0;
   padding: 0;
 }
 
@@ -447,6 +448,27 @@ html {
   top: 10%;
   left: 10%;
   animation-delay: 0s;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-bg-circle-1::before {
+  content: '⚙️';
+  font-size: 10rem;
+  opacity: 0.3;
+  animation: rotate 8s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .hero-bg-circle-2 {
@@ -497,10 +519,10 @@ html {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
-  max-width: 1200px;
+  max-width: 100%;
   width: 100%;
-  margin: 0 auto;
-  padding: 0 2rem;
+  margin: 0;
+  padding: 0 4rem;
   align-items: center;
 }
 
@@ -921,7 +943,7 @@ html {
   }
 
   .hero-content-wrapper {
-    padding: 0 1rem;
+    padding: 0 2rem;
     gap: 2rem;
   }
 
