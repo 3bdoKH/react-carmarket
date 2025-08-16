@@ -1,16 +1,19 @@
-.best-categories{
-    margin-top: 80px;
-    border-radius: 18px;
-    padding: 2.5rem 1.5rem 2.5rem 1.5rem;
-    box-shadow: 0 4px 32px #23272f18;
-    background: linear-gradient(90deg, #2c5364 0%,#0f2027  100%);
+.best-categories {
+  margin-top: 80px;
+  border-radius: 18px;
+  padding: 2.5rem 1.5rem 2.5rem 1.5rem;
+  box-shadow: 0 4px 32px #23272f18;
+  background: linear-gradient(90deg, #2c5364 0%, #0f2027 100%);
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-.best-categories-head h2{
+.best-categories-head h2 {
   color: #ffffff;
 }
+
 .best-categories-head p {
-    color: #cccccc;
+  color: #cccccc;
 }
 
 @media (max-width: 700px) {
@@ -31,7 +34,7 @@
 .best-category-card {
   background: linear-gradient(135deg, #f8fafc 60%, #e0e7ef 100%);
   border-radius: 8px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
   padding: 0 0 18px;
   overflow: hidden;
   width: 220px;
@@ -44,7 +47,7 @@
 
 
 .best-category-card:hover {
-  box-shadow: 0 8px 32px rgba(59,130,246,0.18);
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.18);
   transform: translateY(-8px) scale(1.045);
 }
 

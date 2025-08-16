@@ -1,7 +1,8 @@
 .services-page-container {
-    padding: 0;
-    margin: 0 auto;
+  padding: 0;
+  margin: 0 auto;
 }
+
 .services-main-title {
   font-size: 2rem;
   font-weight: bold;
@@ -27,5 +28,5 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
-  margin-bottom: 2rem;
-} 
+  margin: 2rem 1rem;
+}
