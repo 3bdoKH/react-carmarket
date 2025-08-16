@@ -19,7 +19,7 @@ export default function ServiceDetail() {
     const rating = 4.8;
     const reviewCount = 127;
     const isOpen = true;
-    const workingHours = "9:00 AM - 6:00 PM";
+    const workingHours = "12:00 PM - 11:00 PM";
     const distance = "2.3 km away";
     
     useEffect(() => {
@@ -205,6 +205,25 @@ export default function ServiceDetail() {
                     </div>
                 )}
 
+                {/* Special Offer */}
+                {service.offer && (
+                    <div className="service-offer-section">
+                        <div className="offer-card">
+                            <div className="offer-header">
+                                <div className="offer-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                    </svg>
+                                </div>
+                                <h2 className="offer-title">Special Offer</h2>
+                            </div>
+                            <div className="offer-content">
+                                <p className="offer-text">{service.offer}</p>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {/* Main Content Grid */}
                 <div className="service-content-grid">
                     {/* Contact & Services Section */}
@@ -220,13 +239,25 @@ export default function ServiceDetail() {
                                     </div>
                                 </div>
                                 
-                                <div className="contact-item">
-                                    <FiMapPin className="contact-icon" />
-                                    <div className="contact-details">
-                                        <span className="contact-label">Address</span>
-                                        <span className="contact-value">{service.address}</span>
+                                {service.address.length === 1 ? (
+                                    <div className="contact-item">
+                                        <FiMapPin className="contact-icon" />
+                                        <div className="contact-details">
+                                            <span className="contact-label">Address</span>
+                                            <span className="contact-value">{service.address[0]}</span>
+                                        </div>
                                     </div>
-                                </div>
+                                ) : (
+                                    service.address.map((addr, index) => (
+                                        <div key={addr} className="contact-item">
+                                            <FiMapPin className="contact-icon" />
+                                            <div className="contact-details">
+                                                <span className="contact-label">Address {index + 1}</span>
+                                                <span className="contact-value">{addr}</span>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
                                 
                                 {service.contact.length === 1 ? (
                                     <a href={`tel:${service.contact[0]}`} className="contact-item contact-link">

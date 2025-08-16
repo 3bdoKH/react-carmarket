@@ -128,32 +128,101 @@ const Home = () => {
         <div className="home-container">
             <Header onSearch={handleSearch} search={true} showCity={true} immediateSearch={true} />
             
-            <section className="hero-section-with-image">
-                <div className="hero-text-content">
-                    <h1 className="website-title" style={{
-                        fontSize: '2.8rem',
-                        fontWeight: 'bold',
-                        color: '#0070f3',
-                        textShadow: '2px 2px 8px #b3d1ff',
-                        marginBottom: '0.5em',
-                        letterSpacing: '2px',
-                        fontFamily: 'Segoe UI, Arial, sans-serif',
-                    }}>
-                        <a href="https://fontmeme.com/signature-fonts/"><img src="https://fontmeme.com/permalink/250722/3f0ce8500e16126e79728b4e587fb206.png" alt="signature-fonts" /></a>
-                        <a href="https://fontmeme.com/signature-fonts/"><img src="https://fontmeme.com/permalink/250722/4002f5bb557b1f31966ff4192d5a44d8.png" alt="signature-fonts" /></a>
-                    </h1>
-                    <h1 className="hero-title">{t('hero-title')}</h1>
-                    <p className="hero-desc">{t('hero-desc')}</p>
-                    <a href="#categories" className="hero-cta">{t('hero-cta')}</a>
+            <section className="hero-section-modern">
+                {/* Background decorative elements */}
+                <div className="hero-bg-decoration">
+                    <div className="hero-bg-circle hero-bg-circle-1"></div>
+                    <div className="hero-bg-circle hero-bg-circle-2"></div>
+                    <div className="hero-bg-circle hero-bg-circle-3"></div>
+                    <div className="hero-bg-grid"></div>
                 </div>
-                <div className="hero-image-wrapper">
-                    <div className="hero-image-bg"></div>
-                    <img
-                        src={heroImages[currentHeroIndex]}
-                        alt="Hero Car"
-                        className={`hero-image ${fade ? "fade-in" : "fade-out"}`}
-                        key={heroImages[currentHeroIndex]} 
-                    />
+
+                <div className="hero-content-wrapper">
+                    <div className="hero-text-section">
+                        {/* Badge */}
+                        <div className="hero-badge">
+                            <span className="hero-badge-icon">🚗</span>
+                            <span className="hero-badge-text">{t('hero-badge-text', 'Premium Car Services')}</span>
+                        </div>
+
+                        {/* Main Title */}
+                        <h1 className="hero-main-title">
+                            <span className="hero-title-line-1">{t('hero-title-line-1', 'Find Your Perfect')}</span>
+                            <span className="hero-title-line-2">
+                                <span className="hero-title-highlight">{t('hero-title-highlight', 'Car Service')}</span>
+                                <span className="hero-title-suffix">{t('hero-title-suffix', 'Partner')}</span>
+                            </span>
+                        </h1>
+
+                        {/* Description */}
+                        <p className="hero-description">
+                            {t('hero-desc', 'Discover top-rated car services, repairs, and maintenance from trusted professionals in your area. Quality guaranteed, prices you can trust.')}
+                        </p>
+
+                        {/* CTA Buttons */}
+                        <div className="hero-cta-group">
+                            <a href="#categories" className="hero-cta-primary">
+                                <span className="hero-cta-text">{t('hero-cta', 'Explore Services')}</span>
+                                <span className="hero-cta-icon">→</span>
+                            </a>
+                            <a href="/services" className="hero-cta-secondary">
+                                <span className="hero-cta-text">{t('hero-cta-secondary', 'View All')}</span>
+                            </a>
+                        </div>
+
+                        {/* Stats */}
+                        <div className="hero-stats">
+                            <div className="hero-stat-item">
+                                <span className="hero-stat-number">500+</span>
+                                <span className="hero-stat-label">{t('hero-stat-services', 'Services')}</span>
+                            </div>
+                            <div className="hero-stat-divider"></div>
+                            <div className="hero-stat-item">
+                                <span className="hero-stat-number">50+</span>
+                                <span className="hero-stat-label">{t('hero-stat-cities', 'Cities')}</span>
+                            </div>
+                            <div className="hero-stat-divider"></div>
+                            <div className="hero-stat-item">
+                                <span className="hero-stat-number">10k+</span>
+                                <span className="hero-stat-label">{t('hero-stat-customers', 'Happy Customers')}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="hero-visual-section">
+                        {/* Floating elements */}
+                        <div className="hero-floating-elements">
+                            <div className="hero-floating-card hero-floating-card-1">
+                                <div className="hero-floating-icon">⭐</div>
+                                <span className="hero-floating-text">{t('hero-floating-1', '5-Star Rated')}</span>
+                            </div>
+                            <div className="hero-floating-card hero-floating-card-2">
+                                <div className="hero-floating-icon">⚡</div>
+                                <span className="hero-floating-text">{t('hero-floating-2', 'Fast Service')}</span>
+                            </div>
+                            <div className="hero-floating-card hero-floating-card-3">
+                                <div className="hero-floating-icon">💰</div>
+                                <span className="hero-floating-text">{t('hero-floating-3', 'Best Prices')}</span>
+                            </div>
+                        </div>
+
+                        {/* Main image container */}
+                        <div className="hero-image-container">
+                            <div className="hero-image-background">
+                                <div className="hero-image-bg-gradient"></div>
+                                <div className="hero-image-bg-pattern"></div>
+                            </div>
+                            <div className="hero-image-wrapper">
+                                <img
+                                    src={heroImages[currentHeroIndex]}
+                                    alt="Premium Car Service"
+                                    className={`hero-main-image ${fade ? "fade-in" : "fade-out"}`}
+                                    key={heroImages[currentHeroIndex]} 
+                                />
+                                <div className="hero-image-glow"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -161,7 +230,7 @@ const Home = () => {
                 {t('sponsor-slider-phrase')}
             </div>
             <SponsorSlider />
-            <AdvertisedServices serviceIds={['6891a519f07572032e6a86fc']} />
+            <AdvertisedServices serviceIds={['6891a519f07572032e6a86fc', '6899f347465fc664612d352f']} />
             <BestCategories />
             <BrandSlider />
             <CarServicesArea />

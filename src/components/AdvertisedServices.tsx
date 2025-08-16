@@ -93,7 +93,7 @@ const AdvertisedServices: React.FC<AdvertisedServicesProps> = ({ serviceIds }) =
                         
                         <div className="service-content">
                             <h3 className="service-name">{service.name}</h3>
-                            <p className="service-category">{service.category}</p>
+                            <p className="service-category">{service.category === 'accessorize' ? 'Accessories' : service.category}</p>
                             <p className="service-description">
                                 {service.description.length > 100 
                                     ? `${service.description.substring(0, 100)}...` 

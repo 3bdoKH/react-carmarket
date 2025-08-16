@@ -5,7 +5,7 @@ const adds = [
     alt: 'عرض الزيت',
   },
   {
-    src: 'https://i.ibb.co/CpZLdKyB/JJQe029208.webp',
+    src: 'https://i.ibb.co/PZd6RQmY/cc6ff1d2-189f-494a-b900-e9c19792e0cf.jpg',
     alt: 'عرض الكاوتش',
   },
   {
@@ -26,7 +26,7 @@ const Adds = () => {
     return (
         <div className="adds-grid">
             <div className='grid-col-2'>
-                <img src={adds[4].src} alt={adds[4].alt} className="adds-img" loading="lazy" />
+                <img src={adds[4].src} alt={adds[4].alt} className="adds-img big" loading="lazy" />
             </div>
             <div className='grid-col-1'>
                 <img src={adds[0].src} alt={adds[0].alt} className="adds-img" loading="lazy" />

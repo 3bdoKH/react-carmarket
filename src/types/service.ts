@@ -3,10 +3,11 @@ export type ServiceCategory = 'repair' | 'carwash' | 'spray' | 'spare parts' | '
 export interface Service {
     _id: string;
     name: string;
-    address: string;
+    address: string[];
     city: string;
     contact: string[];
     description : string;
+    offer?: string;
     category: ServiceCategory;
     servicesOffered: string[];
     images?: string[];

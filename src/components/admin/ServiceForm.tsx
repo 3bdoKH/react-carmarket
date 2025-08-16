@@ -24,9 +24,9 @@ export default function ServiceForm({
     }: ServiceFormProps) {
     const [formData, setFormData] = useState<Omit<Service, '_id'>>({
         name: '',
-        address: '',
         city: '',
         description: '',
+        offer: '',
         category: 'repair',
         servicesOffered: [],
         images: [],
@@ -36,12 +36,14 @@ export default function ServiceForm({
         social: [],
         ...initialData,
         contact: initialData?.contact || [],
+        address: initialData?.address || [],
     });
 
     const [currentService, setCurrentService] = useState('');
     const [currentImage, setCurrentImage] = useState('');
     const [currentSocial, setCurrentSocial] = useState('');
     const [currentContact, setCurrentContact] = useState('');
+    const [currentAddress, setCurrentAddress] = useState('');
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -114,14 +116,36 @@ export default function ServiceForm({
 
         <div className="form-group">
             <label className="form-label">Address</label>
-            <input
-            type="text"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            className="form-input"
-            required
-            />
+            <div className="form-inline">
+                <input
+                type="text"
+                value={currentAddress}
+                onChange={(e) => setCurrentAddress(e.target.value)}
+                className="form-input form-input-inline"
+                placeholder="Add an address"
+                />
+                <button
+                type="button"
+                onClick={() => handleAddItem('address', currentAddress, () => setCurrentAddress(''))}
+                className="form-btn"
+                >
+                Add
+                </button>
+            </div>
+            <div className="chip-list">
+                {formData.address.map((addr, index) => (
+                <span key={index} className="chip">
+                    {addr}
+                    <button
+                    type="button"
+                    onClick={() => handleRemoveItem('address', index)}
+                    className="chip-remove"
+                    >
+                    ×
+                    </button>
+                </span>
+                ))}
+            </div>
         </div>
 
         <div className="form-group">
@@ -264,6 +288,18 @@ export default function ServiceForm({
             onChange={handleChange}
             rows={3}
             className="form-textarea"
+            />
+        </div>
+
+        <div className="form-group">
+            <label className="form-label">Offer (Optional)</label>
+            <textarea
+            name="offer"
+            value={formData.offer || ''}
+            onChange={handleChange}
+            rows={3}
+            className="form-textarea"
+            placeholder="Enter any special offers from the service provider..."
             />
         </div>
 

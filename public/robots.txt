@@ -1,13 +1,5 @@
-# *
 User-agent: *
 Allow: /
-
-# *
-User-agent: *
 Disallow: /admin/
 
-# Host
-Host: https://yourdomain.com
-
-# Sitemaps
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://carmarket-eg.online/sitemap.xml

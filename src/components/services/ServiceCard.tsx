@@ -14,7 +14,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
     
     const rating = 5;
     const isOpen = true; 
-    const workingHours = "9:00 AM - 6:00 PM"; 
+    const workingHours = "12:00 PM - 11:00 PM"; 
     
     return (
         <Link to={`/service/${service._id}`} className='service-link' aria-label={`View details for ${service.name}`}>
