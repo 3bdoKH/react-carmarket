@@ -118,7 +118,7 @@ const Home = () => {
 
     return (
         <div className="home-container">
-            <Header onSearch={handleSearch} search={true} showCity={true} immediateSearch={true} />
+            <Header onSearch={handleSearch} search={true} showCity={false} immediateSearch={false} searchT={true} />
             
             <section className="hero-section-modern">
                 {/* Background decorative elements */}

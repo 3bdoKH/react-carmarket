@@ -67,7 +67,7 @@ const ServicesPage = () => {
                 onSearch={handleSearch} 
                 search={true} 
                 showCity={true} 
-                immediateSearch={true}  // Enable immediate search as you type
+                immediateSearch={false}  // Enable immediate search as you type
             />
             
             <h1 className="services-main-title">

@@ -139,7 +139,7 @@ const CategoryPage = () => {
                 onSearch={handleSearch} 
                 search={true} 
                 showCity={true}
-                immediateSearch={true}
+                immediateSearch={false}
             />
 
             <main className="category-content">

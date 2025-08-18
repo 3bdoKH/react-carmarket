@@ -10,9 +10,10 @@ interface HeaderProps {
   search: boolean;
   showCity?: boolean;
   immediateSearch?: boolean;  
+  searchT?: boolean;
 }
 
-export default function Header({ onSearch, search, showCity = false }: HeaderProps) {
+export default function Header({ onSearch, search, showCity = false, immediateSearch = false, searchT = false }: HeaderProps) {
   const { t, i18n } = useTranslation('common');
   const [menuOpen, setMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -97,7 +98,7 @@ export default function Header({ onSearch, search, showCity = false }: HeaderPro
           <div className="header-actions">
             {search && (
               <div className="header-search-container">
-                <SearchBar onSearch={onSearch} showCity={showCity} />
+                <SearchBar onSearch={onSearch} showCity={showCity} search={search} immediateSearch={immediateSearch} searchT={searchT} />
               </div>
             )}
             

@@ -10,6 +10,7 @@ interface SearchBarProps {
     showCity?: boolean;
     search?: boolean;
     immediateSearch?: boolean;
+    searchT?: boolean;
 }
 
 const categories: ServiceCategory[] = [
@@ -25,8 +26,8 @@ const categories: ServiceCategory[] = [
 export default function SearchBar({ 
     onSearch, 
     showCity, 
-    search = false, 
-    immediateSearch = false 
+    immediateSearch = false,
+    searchT = false
 }: SearchBarProps) {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<ServiceCategory | 'all'>('all');
@@ -84,7 +85,7 @@ export default function SearchBar({
     return (
         <div className={`searchbar ${isFocused ? 'focused' : ''}`}>
             <div className="searchbar-content">
-                {search && (
+                {searchT && (
                     <div className="searchbar-input-group">
                         <span className="searchbar-icon">🔍</span>
                         <input
