@@ -92,7 +92,9 @@ const Home = () => {
         const fetchData = async () => {
             try {
                 const allServices = await getServices();
-                const grouped = allServices.reduce((acc, service) => {
+                // Filter to show only active services
+                const activeServices = allServices.filter(service => service.isActive);
+                const grouped = activeServices.reduce((acc, service) => {
                     acc[service.category] = acc[service.category] || [];
                     acc[service.category].push(service);
                     return acc;
@@ -222,7 +224,11 @@ const Home = () => {
                 {t('sponsor-slider-phrase')}
             </div>
             <SponsorSlider />
-            <AdvertisedServices serviceIds={['6891a519f07572032e6a86fc', '6899f347465fc664612d352f']} />
+            <AdvertisedServices 
+                maxServices={6} 
+                title={ 'Featured Services'} 
+                subtitle={ 'Discover our top recommended sponsored services'} 
+            />
             <BestCategories />
             <BrandSlider />
             <CarServicesArea />

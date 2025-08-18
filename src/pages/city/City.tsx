@@ -19,7 +19,11 @@ const CityServicesPage = () => {
             setLoading(true);
             getServices()
                 .then(all => {
-                    setServices(all.filter(s => s.city && s.city.toLowerCase() === city.toLowerCase()));
+                    // Filter to show only active services in the city
+                    const activeServicesInCity = all.filter(s => 
+                        s.isActive && s.city && s.city.toLowerCase() === city.toLowerCase()
+                    );
+                    setServices(activeServicesInCity);
                 })
                 .catch(() => setServices([]))
                 .finally(() => setLoading(false));

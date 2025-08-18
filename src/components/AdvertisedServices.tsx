@@ -1,62 +1,61 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { getService } from '../lib/api';
+import React, { useState, useEffect } from 'react';
+import { getSponsoredServices } from '../lib/api';
 import type { Service } from '../types/service';
 import './advertisedServices.css';
 
 interface AdvertisedServicesProps {
-    serviceIds: string[];
+    maxServices?: number;
+    title?: string;
+    subtitle?: string;
 }
 
-const AdvertisedServices: React.FC<AdvertisedServicesProps> = ({ serviceIds }) => {
+const AdvertisedServices: React.FC<AdvertisedServicesProps> = ({ 
+    maxServices = 6,
+    title = "Featured Services",
+    subtitle = "Discover our top recommended sponsored services"
+}) => {
     const [advertisedServices, setAdvertisedServices] = useState<Service[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    // Memoize the service IDs to prevent unnecessary re-renders
-    const memoizedServiceIds = useMemo(() => serviceIds, [serviceIds.join(',')]);
-
     useEffect(() => {
-        const fetchAdvertisedServices = async () => {
-            if (memoizedServiceIds.length === 0) {
-                return;
-            }
-
+        const fetchSponsoredServices = async () => {
             try {
                 setLoading(true);
                 setError(null);
                 
-                const services = await Promise.all(
-                    memoizedServiceIds.map(id => getService(id))
-                );
+                const sponsoredServices = await getSponsoredServices();
                 
-                setAdvertisedServices(services);
+                // Limit the number of services to display
+                const limitedServices = sponsoredServices.slice(0, maxServices);
+                setAdvertisedServices(limitedServices);
             } catch (err) {
-                console.error('Error fetching advertised services:', err);
-                setError('Failed to load advertised services');
+                console.error('Error fetching sponsored services:', err);
+                setError('Failed to load sponsored services');
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchAdvertisedServices();
-    }, [memoizedServiceIds]);
+        fetchSponsoredServices();
+    }, [maxServices]);
 
-    if (loading && serviceIds.length > 0) {
+    if (loading) {
         return (
             <div className="advertised-services-container">
                 <div className="advertised-services-header">
-                    <h2>Featured Services</h2>
+                    <h2>{title}</h2>
                 </div>
-                <div className="loading">Loading featured services...</div>
+                <div className="loading">Loading sponsored services...</div>
             </div>
         );
     }
 
-    if (error && serviceIds.length > 0) {
+    if (error) {
         return (
             <div className="advertised-services-container">
                 <div className="advertised-services-header">
-                    <h2>Featured Services</h2>
+                    <h2>{title}</h2>
                 </div>
                 <div className="error">{error}</div>
             </div>
@@ -70,13 +69,16 @@ const AdvertisedServices: React.FC<AdvertisedServicesProps> = ({ serviceIds }) =
     return (
         <div className="advertised-services-container">
             <div className="advertised-services-header">
-                <h2>Featured Services</h2>
-                <p>Discover our top recommended services</p>
+                <h2>{title}</h2>
+                <p>{subtitle}</p>
             </div>
             
             <div className="advertised-services-grid">
                 {advertisedServices.map((service) => (
                     <div key={service._id} className="advertised-service-card">
+                        <div className="sponsored-badge-overlay">
+                            <span className="sponsored-badge-ad">⭐ Sponsored</span>
+                        </div>
                         <div className="service-image-container">
                             {service.logo ? (
                                 <img 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getServices, createService, updateService, deleteService } from '../../lib/api';
+import { getServices, createService, updateService, deleteService, toggleServiceStatus, toggleServiceSponsored } from '../../lib/api';
 import type { Service } from '../../types/service';
 import ServiceList from '../../components/admin/ServiceList';
 import AdminSidebar from '../../components/admin/AdminSidebar';
@@ -15,6 +15,8 @@ const Dashboard = () => {
     const [currentView, setCurrentView] = useState<DashboardView>('overview');
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
+    const [selectedStatus, setSelectedStatus] = useState<string>('all');
+    const [selectedSponsored, setSelectedSponsored] = useState<string>('all');
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
     const navigate = useNavigate();
 
@@ -68,6 +70,28 @@ const Dashboard = () => {
         }
     };
 
+    const handleToggleStatus = async (id: string) => {
+        try {
+            const updatedService = await toggleServiceStatus(id);
+            setServices((prev) =>
+                prev.map((s) => (s._id === id ? updatedService : s))
+            );
+        } catch (error) {
+            console.error('Failed to toggle service status', error);
+        }
+    };
+
+    const handleToggleSponsored = async (id: string) => {
+        try {
+            const updatedService = await toggleServiceSponsored(id);
+            setServices((prev) =>
+                prev.map((s) => (s._id === id ? updatedService : s))
+            );
+        } catch (error) {
+            console.error('Failed to toggle sponsored status', error);
+        }
+    };
+
     const handleLogout = () => {
         localStorage.removeItem('adminToken');
         navigate('/admin/login');
@@ -81,7 +105,15 @@ const Dashboard = () => {
         
         const matchesCategory = selectedCategory === 'all' || service.category === selectedCategory;
         
-        return matchesSearch && matchesCategory;
+        const matchesStatus = selectedStatus === 'all' || 
+            (selectedStatus === 'active' && service.isActive) ||
+            (selectedStatus === 'inactive' && !service.isActive);
+        
+        const matchesSponsored = selectedSponsored === 'all' || 
+            (selectedSponsored === 'sponsored' && service.isSponsored) ||
+            (selectedSponsored === 'regular' && !service.isSponsored);
+        
+        return matchesSearch && matchesCategory && matchesStatus && matchesSponsored;
     });
 
     if (loading) {
@@ -149,6 +181,28 @@ const Dashboard = () => {
                                         <option value="showroom">Showroom</option>
                                     </select>
                                 </div>
+                                <div className="status-filter">
+                                    <select
+                                        value={selectedStatus}
+                                        onChange={(e) => setSelectedStatus(e.target.value)}
+                                        className="status-select"
+                                    >
+                                        <option value="all">All Status</option>
+                                        <option value="active">Active Only</option>
+                                        <option value="inactive">Inactive Only</option>
+                                    </select>
+                                </div>
+                                <div className="sponsored-filter">
+                                    <select
+                                        value={selectedSponsored}
+                                        onChange={(e) => setSelectedSponsored(e.target.value)}
+                                        className="sponsored-select"
+                                    >
+                                        <option value="all">All Types</option>
+                                        <option value="sponsored">Sponsored Only</option>
+                                        <option value="regular">Regular Only</option>
+                                    </select>
+                                </div>
                             </div>
                             
                             <ServiceList
@@ -156,6 +210,8 @@ const Dashboard = () => {
                                 onAdd={handleAdd}
                                 onUpdate={handleUpdate}
                                 onDelete={handleDelete}
+                                onActivate={handleToggleStatus}
+                                onToggleSponsored={handleToggleSponsored}
                             />
                         </div>
                     )}

@@ -6,13 +6,15 @@ export interface Service {
     address: string[];
     city: string;
     contact: string[];
-    description : string;
+    description: string;
     offer?: string;
     category: ServiceCategory;
     servicesOffered: string[];
     images?: string[];
     videoUrl?: string;
-    logo?: string; 
+    logo?: string;
     location: string;
-    social : string[];
+    social: string[];
+    isActive: boolean;
+    isSponsored: boolean;
 }

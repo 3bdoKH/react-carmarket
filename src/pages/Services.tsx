@@ -19,7 +19,9 @@ const ServicesPage = () => {
         const fetchData = async () => {
             try {
                 const allServices = await getServices();
-                setServices(allServices);
+                // Filter to show only active services
+                const activeServices = allServices.filter(service => service.isActive);
+                setServices(activeServices);
             } catch (error) {
                 setServices([]);
                 console.error('Error fetching services:', error);

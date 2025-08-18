@@ -40,6 +40,27 @@
     border: 1px solid #e0e0e0;
     max-width: 350px;
     margin: auto;
+    position: relative;
+}
+
+.sponsored-badge-overlay {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+}
+
+.sponsored-badge-ad {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    color: white;
+    padding: 0.375rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
 }
 
 .advertised-service-card:hover {

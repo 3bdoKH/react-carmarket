@@ -27,7 +27,11 @@ const CategoryPage = () => {
             setLoading(true);
             getServicesByCategory(category)
                 .then(data => {
-                    if (mounted) setServices(data);
+                    if (mounted) {
+                        // Filter to show only active services
+                        const activeServices = data.filter(service => service.isActive);
+                        setServices(activeServices);
+                    }
                 })
                 .catch(err => {
                     console.error('Failed to fetch services:', err);

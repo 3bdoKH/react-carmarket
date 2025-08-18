@@ -8,12 +8,16 @@ interface ServiceListProps {
     onAdd: (data: Omit<Service, '_id'>) => Promise<void>;
     onUpdate: (id: string, data: Omit<Service, '_id'>) => Promise<void>;
     onDelete: (id: string) => Promise<void>;
+    onActivate: (id: string) => Promise<void>;
+    onToggleSponsored: (id: string) => Promise<void>;
 }
 
-export default function ServiceList({ services, onAdd, onUpdate, onDelete }: ServiceListProps) {
+export default function ServiceList({ services, onAdd, onUpdate, onDelete, onActivate, onToggleSponsored }: ServiceListProps) {
     const [editingId, setEditingId] = useState<string | null>(null);
     const [showForm, setShowForm] = useState(false);
     const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+    const [activateConfirm, setActivateConfirm] = useState<string | null>(null);
+    const [sponsoredConfirm, setSponsoredConfirm] = useState<string | null>(null);
 
     const handleEdit = (service: Service) => {
         setEditingId(service._id);
@@ -39,6 +43,40 @@ export default function ServiceList({ services, onAdd, onUpdate, onDelete }: Ser
 
     const handleDeleteCancel = () => {
         setDeleteConfirm(null);
+    };
+
+    const handleActivateClick = (id: string) => {
+        setActivateConfirm(id);
+    };
+    
+    const handleActivateConfirm = async (id: string) => {
+        try {
+            await onActivate(id);
+            setActivateConfirm(null);
+        } catch (error) {
+            console.error('Failed to toggle service status:', error);
+        }
+    };
+
+    const handleActivateCancel = () => {
+        setActivateConfirm(null);
+    };
+
+    const handleSponsoredClick = (id: string) => {
+        setSponsoredConfirm(id);
+    };
+    
+    const handleSponsoredConfirm = async (id: string) => {
+        try {
+            await onToggleSponsored(id);
+            setSponsoredConfirm(null);
+        } catch (error) {
+            console.error('Failed to toggle sponsored status:', error);
+        }
+    };
+
+    const handleSponsoredCancel = () => {
+        setSponsoredConfirm(null);
     };
 
     return (
@@ -93,7 +131,8 @@ export default function ServiceList({ services, onAdd, onUpdate, onDelete }: Ser
                                 <th>Service</th>
                                 <th>Category</th>
                                 <th>Location</th>
-                                <th>Service ID</th>
+                                <th>Status</th>
+                                <th>Sponsored</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -124,10 +163,6 @@ export default function ServiceList({ services, onAdd, onUpdate, onDelete }: Ser
                                                     )}
                                                     <div>
                                                         <h4 className="service-title">{service.name}</h4>
-                                                        <p className="service-description">
-                                                            {service.description?.substring(0, 50)}
-                                                            {service.description?.length > 50 ? '...' : ''}
-                                                        </p>
                                                     </div>
                                                 </div>
                                             </td>
@@ -135,14 +170,20 @@ export default function ServiceList({ services, onAdd, onUpdate, onDelete }: Ser
                                                 <span className="category-badge">{service.category}</span>
                                             </td>
                                             <td>
-                                                <div className="location-info">
-                                                    <span className="city">{service.city}</span>
-                                                    <span className="address">{service.address}</span>
+                                                <span>{service.city}</span>
+                                            </td>
+                                            <td>
+                                                <div className="service-status">
+                                                    <span className={`status-badge ${service.isActive ? 'active' : 'inactive'}`} onClick={() => handleActivateClick(service._id)}>
+                                                        {service.isActive ? '✅ Active' : '⏸️ Inactive'}
+                                                    </span>
                                                 </div>
                                             </td>
                                             <td>
-                                                <div className="service-id">
-                                                    <span className="id-text">{service._id}</span>
+                                                <div className="service-sponsored">
+                                                    <span className={`sponsored-badge ${service.isSponsored ? 'sponsored' : 'regular'}`} onClick={() => handleSponsoredClick(service._id)}>
+                                                        {service.isSponsored ? '⭐ Sponsored' : '📋 Regular'}
+                                                    </span>
                                                 </div>
                                             </td>
                                             <td>
@@ -189,6 +230,52 @@ export default function ServiceList({ services, onAdd, onUpdate, onDelete }: Ser
                                 className="confirm-delete-btn"
                             >
                                 Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {activateConfirm && (
+                <div className="delete-modal">
+                    <div className="delete-modal-content">
+                        <h3>Toggle Service Status</h3>
+                        <p>Are you sure you want to change this service's visibility status?</p>
+                        <div className="delete-modal-actions">
+                            <button
+                                onClick={handleActivateCancel}
+                                className="cancel-btn"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() => handleActivateConfirm(activateConfirm)}
+                                className="confirm-toggle-btn"
+                            >
+                                Toggle Status
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {sponsoredConfirm && (
+                <div className="delete-modal">
+                    <div className="delete-modal-content">
+                        <h3>Toggle Sponsored Status</h3>
+                        <p>Are you sure you want to change this service's sponsored status?</p>
+                        <div className="delete-modal-actions">
+                            <button
+                                onClick={handleSponsoredCancel}
+                                className="cancel-btn"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() => handleSponsoredConfirm(sponsoredConfirm)}
+                                className="confirm-sponsored-btn"
+                            >
+                                Toggle Sponsored
                             </button>
                         </div>
                     </div>

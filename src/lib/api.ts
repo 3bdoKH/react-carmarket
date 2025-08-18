@@ -32,3 +32,21 @@ export const getServicesByCategory = async (category: string): Promise<Service[]
     const response = await api.get<Service[]>(`/services/category/${category}`);
     return response.data;
 };
+
+export const getSponsoredServices = async (): Promise<Service[]> => {
+    const response = await api.get<Service[]>('/services/sponsored');
+    return response.data;
+};
+
+export const toggleServiceStatus = async (id: string): Promise<Service> => {
+    const response = await api.patch<Service>(`/services/${id}/toggle-status`);
+    return response.data;
+};
+
+export const toggleServiceSponsored = async (id: string): Promise<Service> => {
+    const response = await api.patch<Service>(`/services/${id}/toggle-sponsored`);
+    return response.data;
+};
+
+// Legacy function name for backward compatibility
+export const activateService = toggleServiceStatus;

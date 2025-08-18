@@ -37,6 +37,8 @@ export default function ServiceForm({
         ...initialData,
         contact: initialData?.contact || [],
         address: initialData?.address || [],
+        isActive: initialData?.isActive || true,
+        isSponsored: initialData?.isSponsored || false,
     });
 
     const [currentService, setCurrentService] = useState('');
@@ -368,6 +370,34 @@ export default function ServiceForm({
                 </button>
                 </span>
             ))}
+            </div>
+        </div>
+
+        <div className="form-row">
+            <div className="form-group">
+                <label className="form-label checkbox-label">
+                    <input
+                        type="checkbox"
+                        name="isActive"
+                        checked={formData.isActive}
+                        onChange={(e) => setFormData(prev => ({ ...prev, isActive: e.target.checked }))}
+                        className="form-checkbox"
+                    />
+                    Active (visible on website)
+                </label>
+            </div>
+            
+            <div className="form-group">
+                <label className="form-label checkbox-label">
+                    <input
+                        type="checkbox"
+                        name="isSponsored"
+                        checked={formData.isSponsored}
+                        onChange={(e) => setFormData(prev => ({ ...prev, isSponsored: e.target.checked }))}
+                        className="form-checkbox"
+                    />
+                    Sponsored (premium listing)
+                </label>
             </div>
         </div>
 

@@ -10,6 +10,8 @@ import { FiMapPin, FiPhone, FiClock, FiStar, FiCheckCircle, FiShare2, FiHeart, F
 export default function ServiceDetail() {
     const { id } = useParams<{ id: string }>();
     const [service, setService] = useState<Service | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [notFound, setNotFound] = useState(false);
     const [selectedImage, setSelectedImage] = useState(0);
     const [isFavorite, setIsFavorite] = useState(false);
     const [isVideoPlaying, setIsVideoPlaying] = useState(false);
@@ -24,7 +26,22 @@ export default function ServiceDetail() {
     
     useEffect(() => {
         if (id) {
-            getService(id as string).then(setService);
+            setLoading(true);
+            getService(id as string).then(fetchedService => {
+                // Only show the service if it's active
+                if (fetchedService && fetchedService.isActive) {
+                    setService(fetchedService);
+                    setNotFound(false);
+                } else {
+                    setService(null);
+                    setNotFound(true);
+                }
+            }).catch(() => {
+                setService(null);
+                setNotFound(true);
+            }).finally(() => {
+                setLoading(false);
+            });
         }
     }, [id]);
 
@@ -66,12 +83,30 @@ export default function ServiceDetail() {
         return url;
     };
 
-    if (!service) return (
-        <div className="service-loading">
-            <div className="loading-spinner"></div>
-            <p>Loading service details...</p>
-        </div>
-    );
+    if (loading) {
+        return (
+            <div className="service-loading">
+                <div className="loading-spinner"></div>
+                <p>Loading service details...</p>
+            </div>
+        );
+    }
+
+    if (notFound || !service) {
+        return (
+            <>
+                <Header onSearch={() => {}} search={false}/>
+                <div className="service-details-container">
+                    <div className="service-not-found">
+                        <h1>Service Not Available</h1>
+                        <p>This service is currently not available or does not exist.</p>
+                        <a href="/" className="back-to-home">← Back to Home</a>
+                    </div>
+                </div>
+                <Footer />
+            </>
+        );
+    }
 
     return (
         <>

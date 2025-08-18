@@ -18,12 +18,20 @@ const DashboardOverview = ({ services, totalServices, categoriesCount }: Dashboa
         const citiesCount = new Set(services.map(s => s.city)).size;
         const servicesWithImages = services.filter(s => s.images && s.images.length > 0).length;
         const servicesWithLogo = services.filter(s => s.logo).length;
+        const activeServices = services.filter(s => s.isActive).length;
+        const inactiveServices = services.length - activeServices;
+        const sponsoredServices = services.filter(s => s.isSponsored).length;
+        const regularServices = services.length - sponsoredServices;
 
         return {
             categoryBreakdown,
             citiesCount,
             servicesWithImages,
             servicesWithLogo,
+            activeServices,
+            inactiveServices,
+            sponsoredServices,
+            regularServices,
             averageServicesPerService: services.reduce((acc, s) => acc + s.servicesOffered.length, 0) / services.length || 0
         };
     }, [services]);
@@ -64,6 +72,38 @@ const DashboardOverview = ({ services, totalServices, categoriesCount }: Dashboa
                         <p className="stat-label">With Images</p>
                     </div>
                 </div>
+
+                <div className="stat-card active">
+                    <div className="stat-icon">✅</div>
+                    <div className="stat-content">
+                        <h3 className="stat-number">{stats.activeServices}</h3>
+                        <p className="stat-label">Active Services</p>
+                    </div>
+                </div>
+
+                <div className="stat-card inactive">
+                    <div className="stat-icon">⏸️</div>
+                    <div className="stat-content">
+                        <h3 className="stat-number">{stats.inactiveServices}</h3>
+                        <p className="stat-label">Inactive Services</p>
+                    </div>
+                </div>
+
+                <div className="stat-card sponsored">
+                    <div className="stat-icon">⭐</div>
+                    <div className="stat-content">
+                        <h3 className="stat-number">{stats.sponsoredServices}</h3>
+                        <p className="stat-label">Sponsored Services</p>
+                    </div>
+                </div>
+
+                <div className="stat-card regular">
+                    <div className="stat-icon">📋</div>
+                    <div className="stat-content">
+                        <h3 className="stat-number">{stats.regularServices}</h3>
+                        <p className="stat-label">Regular Services</p>
+                    </div>
+                </div>
             </div>
 
             <div className="overview-sections">
@@ -100,6 +140,12 @@ const DashboardOverview = ({ services, totalServices, categoriesCount }: Dashboa
                                 <div className="recent-stats">
                                     <span className="recent-services-count">
                                         {service.servicesOffered.length} services
+                                    </span>
+                                    <span className={`recent-status ${service.isActive ? 'active' : 'inactive'}`}>
+                                        {service.isActive ? '✅' : '⏸️'}
+                                    </span>
+                                    <span className={`recent-sponsored ${service.isSponsored ? 'sponsored' : 'regular'}`}>
+                                        {service.isSponsored ? '⭐' : '📋'}
                                     </span>
                                     {service.logo && <span className="has-logo">📷</span>}
                                 </div>

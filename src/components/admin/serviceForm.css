@@ -107,6 +107,29 @@
 
 .form-btn-secondary:hover {
   background: #4b5563;
+}
+
+/* Checkbox styles */
+.checkbox-label {
+  display: flex !important;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.form-checkbox {
+  width: auto !important;
+  padding: 0 !important;
+  margin: 0;
+  accent-color: #667eea;
+  cursor: pointer;
+}
+
+.checkbox-label:hover {
+  color: #667eea;
+}
   box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
 }
 
