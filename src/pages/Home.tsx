@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { getServices } from '../lib/api';
 import type { Service, ServiceCategory } from '../types/service';
 import { getRandomItems } from '../lib/random';
+import { performCompleteSearch } from '../lib/searchUtils';
 import ServiceCard from '../components/services/ServiceCard';
 import Header from '../components/header/Header';
 import { useTranslation } from 'react-i18next';
@@ -57,43 +58,34 @@ const Home = () => {
     const filteredServicesByCategory = useMemo(() => {    
         const result: Record<string, Service[]> = {};
         
+        // If no search criteria, return random services
         if (!searchTerm && !searchCategory && !searchCity) {
             return randomServicesByCategory;
         }
-    
-        Object.entries(servicesByCategory).forEach(([category, services]) => {
-    
-            if (searchCategory && category !== searchCategory) {
-                return;
-            }
-    
-            const filtered = services.filter(service => {
-                const nameMatch = searchTerm 
-                    ? service.name.toLowerCase().includes(searchTerm.toLowerCase())
-                    : true;
-                
-                const descMatch = searchTerm && service.description
-                    ? service.description.toLowerCase().includes(searchTerm.toLowerCase())
-                    : false;
-                
-                const tagsMatch = searchTerm && service.servicesOffered
-                    ? service.servicesOffered.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
-                    : false;
-                
-                const cityMatch = searchCity
-                    ? service.city && service.city.toLowerCase().includes(searchCity.toLowerCase())
-                    : true;
-                
-                const shouldInclude = (nameMatch || descMatch || tagsMatch) || cityMatch;
-                return shouldInclude;
-            });
-    
-            if (filtered.length > 0) {
-                result[category] = filtered;
-            } else {
-                console.log(`No matching services in category ${category}`);
-            }
+        
+        // Flatten services for searching
+        const allServices: Service[] = [];
+        Object.values(servicesByCategory).forEach(services => {
+            allServices.push(...services);
         });
+        
+        // Use Fuse.js for fuzzy search with Arabic support
+        const searchResults = performCompleteSearch(
+            searchTerm,
+            allServices,
+            searchCategory,
+            searchCity
+        );
+        
+        // Group results back by category
+        searchResults.forEach(service => {
+            const category = service.category;
+            if (!result[category]) {
+                result[category] = [];
+            }
+            result[category].push(service);
+        });
+        
         return result;
     }, [servicesByCategory, searchTerm, searchCategory, searchCity, randomServicesByCategory]);
     useEffect(() => {

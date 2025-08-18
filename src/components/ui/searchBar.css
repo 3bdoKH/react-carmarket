@@ -54,6 +54,13 @@
   z-index: 1;
 }
 
+/* RTL support for search icon */
+.rtl-input+.searchbar-icon,
+[dir="rtl"] .searchbar-icon {
+  left: auto;
+  right: 0.8rem;
+}
+
 .searchbar-input {
   width: 100%;
   padding: 0.7rem 2.5rem 0.7rem 2.2rem;
@@ -64,6 +71,13 @@
   transition: all 0.3s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   color: #374151;
+}
+
+/* RTL support for input padding */
+.rtl-input,
+[dir="rtl"] .searchbar-input {
+  padding: 0.7rem 2.2rem 0.7rem 2.5rem;
+  text-align: right;
 }
 
 .searchbar-input::placeholder {
@@ -97,6 +111,13 @@
   width: 20px;
   height: 20px;
   z-index: 2;
+}
+
+/* RTL support for clear button */
+.rtl-input+.searchbar-clear,
+[dir="rtl"] .searchbar-clear {
+  right: auto;
+  left: 0.7rem;
 }
 
 .searchbar-clear:hover {

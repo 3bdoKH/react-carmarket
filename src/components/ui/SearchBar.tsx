@@ -1,7 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import type { ServiceCategory } from '../../types/service';
 import { useTranslation } from 'react-i18next';
 import './searchBar.css';
+// Import for detecting Arabic text
+import { isRTL } from '../../lib/rtlUtils';
 
 interface SearchBarProps {
     onSearch: (term: string, category?: ServiceCategory, city?: string) => void;
@@ -30,20 +32,26 @@ export default function SearchBar({
     const [selectedCategory, setSelectedCategory] = useState<ServiceCategory | 'all'>('all');
     const [city, setCity] = useState('');
     const [isFocused, setIsFocused] = useState(false);
+    const [isRtlInput, setIsRtlInput] = useState(false);
     const searchInputRef = useRef<HTMLInputElement>(null);
-    const { t } = useTranslation('common');
+    const { t, i18n } = useTranslation('common');
+    
+    // Check if current language is RTL
+    const isRtlLanguage = i18n.language === 'ar';
 
-    const handleSearch = () => {
+    const handleSearch = useCallback(() => {
         const combinedSearchTerm = showCity && city 
             ? `${searchTerm} ${city}`.trim() 
             : searchTerm;
         
+        // Use the raw search term - Fuse.js will handle the fuzzy matching
+        // Our backend search will use the normalized text from searchUtils.ts
         onSearch(
             combinedSearchTerm,
             selectedCategory === 'all' ? undefined : selectedCategory,
             showCity ? city : undefined
         );
-    };
+    }, [searchTerm, selectedCategory, city, showCity, onSearch]);
 
     const handleClearSearch = () => {
         setSearchTerm('');
@@ -69,7 +77,7 @@ export default function SearchBar({
             
             return () => clearTimeout(timer);
         }
-    }, [searchTerm, selectedCategory, city, immediateSearch]);
+    }, [searchTerm, selectedCategory, city, immediateSearch, handleSearch]);
 
     const hasSearchContent = searchTerm.trim() || city.trim();
 
@@ -83,9 +91,15 @@ export default function SearchBar({
                             ref={searchInputRef}
                             type="text"
                             value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                            onChange={(e) => {
+                                const newValue = e.target.value;
+                                setSearchTerm(newValue);
+                                // Check if input contains RTL text
+                                setIsRtlInput(isRTL(newValue));
+                            }}
                             placeholder={t('search-services') || 'Search services...'}
-                            className="searchbar-input"
+                            className={`searchbar-input ${isRtlInput || isRtlLanguage ? 'rtl-input' : ''}`}
+                            dir={isRtlInput || isRtlLanguage ? 'rtl' : 'ltr'}
                             onKeyDown={handleKeyDown}
                             onFocus={() => setIsFocused(true)}
                             onBlur={() => setIsFocused(false)}
@@ -130,9 +144,14 @@ export default function SearchBar({
                             <input
                                 type="text"
                                 value={city}
-                                onChange={(e) => setCity(e.target.value)}
+                                onChange={(e) => {
+                                    const newValue = e.target.value;
+                                    setCity(newValue);
+                                    // No need to update isRtlInput here as we're using it for the main search
+                                }}
                                 placeholder={t('search-city') || 'City or location...'}
-                                className="searchbar-input"
+                                className={`searchbar-input ${isRtlInput || isRtlLanguage ? 'rtl-input' : ''}`}
+                                dir={isRtlInput || isRtlLanguage ? 'rtl' : 'ltr'}
                                 onKeyDown={handleKeyDown}
                                 onFocus={() => setIsFocused(true)}
                                 onBlur={() => setIsFocused(false)}
