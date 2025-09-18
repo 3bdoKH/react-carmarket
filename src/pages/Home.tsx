@@ -13,6 +13,7 @@ import CarServicesArea from '../components/CarServicesArea';
 import Adds from '../components/Adds';
 import SponsorSlider from '../components/SponsorSlider';
 import AdvertisedServices from '../components/AdvertisedServices';
+import SEO from '../components/seo/SEO';
 import '../styles/index.css';
 
 const Home = () => {
@@ -21,7 +22,7 @@ const Home = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchCategory, setSearchCategory] = useState<ServiceCategory | undefined>(undefined);
     const [searchCity, setSearchCity] = useState<string | undefined>(undefined);
-    const { t } = useTranslation('common');
+    const { t, i18n } = useTranslation('common');
     
     const handleSearch = (term: string, category?: ServiceCategory, city?: string) => {
         setSearchTerm(term);
@@ -117,9 +118,63 @@ const Home = () => {
     }, []);
 
     if (loading) return <div className="loading">Loading...</div>;
+    const isArabic = i18n.language === 'ar';
+    const categoryTranslations: Record<string, string> = {
+        'repair': t('repair'),
+        'carwash': t('carwash'),
+        'spray': t('spray'),
+        'spare parts': t('spare-parts'),
+        'tires': t('tires'),
+        'accessorize': t('accessorize'),
+        'showroom': t('showroom')
+    };
+
+    // SEO structured data for home page
+    const homeStructuredData = {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: t('seo.home-title'),
+        alternateName: isArabic ? 'كار ماركت' : 'Car Market Egypt',
+        url: 'https://carmarket-eg.online',
+        description: t('seo.home-description'),
+        potentialAction: {
+            '@type': 'SearchAction',
+            target: {
+                '@type': 'EntryPoint',
+                urlTemplate: 'https://carmarket-eg.online/services?search={search_term_string}'
+            },
+            'query-input': 'required name=search_term_string'
+        },
+        mainEntity: {
+            '@type': 'LocalBusiness',
+            name: 'Car Market Egypt',
+            alternateName: 'كار ماركت',
+            address: {
+                '@type': 'PostalAddress',
+                addressCountry: 'EG'
+            },
+            areaServed: 'Egypt',
+            serviceType: Object.keys(servicesByCategory).map(category => 
+                isArabic ? categoryTranslations[category] || category : category
+            )
+        }
+    };
 
     return (
         <div className="home-container">
+            <SEO 
+                title={t('seo.home-title')}
+                description={t('seo.home-description')}
+                keywords={t('seo.home-keywords', { returnObjects: true }) as string[]}
+                url="https://carmarket-eg.online"
+                type="website"
+                structuredData={homeStructuredData}
+                alternateUrls={{
+                    'ar': 'https://carmarket-eg.online?lang=ar',
+                    'en': 'https://carmarket-eg.online?lang=en',
+                    'x-default': 'https://carmarket-eg.online'
+                }}
+            />
             <Header onSearch={handleSearch} search={true} showCity={false} immediateSearch={false} searchT={true} />
             
             <section className="hero-section-modern">

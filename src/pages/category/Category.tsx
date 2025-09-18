@@ -92,8 +92,8 @@ const CategoryPage = () => {
     const metaDescription = isArabic 
         ? `اكتشف أفضل خدمات ${categoryName} في منطقتك. احجز مع مقدمي خدمات موثوقين عبر كار ماركت.` 
         : `Explore the best ${categoryName} services in your area. Book trusted providers for ${categoryName} with Car Market.`;
-    const metaOgImage = '/public/file.svg';
-    const metaUrl = `https://yourdomain.com/category/${category}`;
+    const metaOgImage = 'https://carmarket-eg.online/images/og-image.jpg';
+    const metaUrl = `https://carmarket-eg.online/category/${category}`;
 
     return (
         <div className="category-page-container">
@@ -110,6 +110,9 @@ const CategoryPage = () => {
                 <meta name="twitter:description" content={metaDescription} />
                 <meta name="twitter:image" content={metaOgImage} />
                 <meta httpEquiv="Content-Language" content={isArabic ? 'ar' : 'en'} />
+                <meta name="geo.region" content="EG" />
+                <meta name="geo.country" content="Egypt" />
+                <meta name="geo.placename" content="Egypt" />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
@@ -120,18 +123,43 @@ const CategoryPage = () => {
                                 'name': metaTitle,
                                 'description': metaDescription,
                                 'inLanguage': isArabic ? 'ar' : 'en',
-                                'url': metaUrl
+                                'url': metaUrl,
+                                'mainEntity': {
+                                    '@type': 'LocalBusiness',
+                                    'name': 'Car Market Egypt',
+                                    'alternateName': 'كار ماركت',
+                                    'address': {
+                                        '@type': 'PostalAddress',
+                                        'addressCountry': 'EG'
+                                    },
+                                    'areaServed': 'Egypt',
+                                    'serviceType': categoryName
+                                }
                             },
                             {
                                 '@context': 'https://schema.org',
                                 '@type': 'ItemList',
                                 'name': metaTitle,
+                                'description': isArabic ? `قائمة بأفضل مقدمي خدمات ${categoryName} في مصر` : `List of best ${categoryName} service providers in Egypt`,
+                                'numberOfItems': filteredServices.length,
+                                'itemListOrder': 'https://schema.org/ItemListOrderAscending',
                                 'itemListElement': filteredServices.map((service, idx) => ({
                                     '@type': 'ListItem',
                                     'position': idx + 1,
-                                    'url': `https://yourdomain.com/service/${service._id}`,
-                                    'name': service.name,
-                                    'description': service.description
+                                    'item': {
+                                        '@type': 'LocalBusiness',
+                                        'name': service.name,
+                                        'description': service.description,
+                                        'url': `https://carmarket-eg.online/service/${service._id}`,
+                                        'address': {
+                                            '@type': 'PostalAddress',
+                                            'addressLocality': service.city,
+                                            'addressCountry': 'EG'
+                                        },
+                                        'serviceType': service.category,
+                                        'priceRange': '$$',
+                                        
+                                    }
                                 }))
                             }
                         ])

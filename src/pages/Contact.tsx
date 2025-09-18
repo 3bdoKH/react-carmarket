@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import Header from '../components/header/Header';
 import Footer from '../components/footer/Footer';
+import SEO from '../components/seo/SEO';
+import { useTranslation } from 'react-i18next';
 import { FaPhone, FaEnvelope } from 'react-icons/fa';
 import { FaWhatsapp } from 'react-icons/fa';
 import '../styles/contact.css';
 
 const Contact = () => {
+  const { t } = useTranslation('common');
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -25,8 +28,56 @@ const Contact = () => {
         alert('There was an error. Please try again later.');
     }
   };
+  // SEO structured data for contact page
+  const contactStructuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    name: t('seo.contact-title'),
+    description: t('seo.contact-description'),
+    url: 'https://carmarket-eg.online/contact',
+    mainEntity: {
+      '@type': 'Organization',
+      name: 'Car Market Egypt',
+      alternateName: 'كار ماركت',
+      url: 'https://carmarket-eg.online',
+      contactPoint: [
+        {
+          '@type': 'ContactPoint',
+          telephone: '+20-109-5016685',
+          contactType: 'customer service',
+          availableLanguage: ['Arabic', 'English'],
+          areaServed: 'EG'
+        },
+        {
+          '@type': 'ContactPoint',
+          email: 'support@emereld-marketing.online',
+          contactType: 'customer service',
+          availableLanguage: ['Arabic', 'English'],
+          areaServed: 'EG'
+        }
+      ],
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'EG'
+      }
+    }
+  };
+
   return (
     <>
+      <SEO 
+        title={t('seo.contact-title')}
+        description={t('seo.contact-description')}
+        keywords={t('seo.contact-keywords', { returnObjects: true }) as string[]}
+        url="https://carmarket-eg.online/contact"
+        type="website"
+        structuredData={contactStructuredData}
+        alternateUrls={{
+          'ar': 'https://carmarket-eg.online/contact?lang=ar',
+          'en': 'https://carmarket-eg.online/contact?lang=en',
+          'x-default': 'https://carmarket-eg.online/contact'
+        }}
+      />
       <Header onSearch={() => {}} search={false} />
       <div className="contact-container">
         <h1 className="contact-title">Contact Us</h1>

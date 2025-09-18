@@ -5,6 +5,7 @@ import ServiceCard from '../components/services/ServiceCard';
 import Header from '../components/header/Header';
 import Footer from '../components/footer/Footer';
 import { useTranslation } from 'react-i18next';
+import SEO from '../components/seo/SEO';
 import '../styles/services.css';
 
 const ServicesPage = () => {
@@ -13,7 +14,7 @@ const ServicesPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchCategory, setSearchCategory] = useState<ServiceCategory | undefined>(undefined);
     const [searchCity, setSearchCity] = useState<string | undefined>(undefined);
-    const { t } = useTranslation('common');
+    const { t} = useTranslation('common');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -63,8 +64,52 @@ const ServicesPage = () => {
         });
     }, [services, searchTerm, searchCategory, searchCity]);
 
+    
+    // SEO structured data for services page
+    const servicesStructuredData = {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: t('seo.services-title'),
+        description: t('seo.services-description'),
+        url: 'https://carmarket-eg.online/services',
+        mainEntity: {
+            '@type': 'ItemList',
+            name: t('seo.services-title'),
+            numberOfItems: filteredServices.length,
+            itemListElement: filteredServices.slice(0, 10).map((service, index) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                item: {
+                    '@type': 'LocalBusiness',
+                    name: service.name,
+                    description: service.description,
+                    url: `https://carmarket-eg.online/service/${service._id}`,
+                    address: {
+                        '@type': 'PostalAddress',
+                        addressLocality: service.city,
+                        addressCountry: 'EG'
+                    },
+                    category: service.category
+                }
+            }))
+        }
+    };
+
     return (
         <div className="services-page-container">
+            <SEO 
+                title={t('seo.services-title')}
+                description={t('seo.services-description')}
+                keywords={t('seo.services-keywords', { returnObjects: true }) as string[]}
+                url="https://carmarket-eg.online/services"
+                type="website"
+                structuredData={servicesStructuredData}
+                alternateUrls={{
+                    'ar': 'https://carmarket-eg.online/services?lang=ar',
+                    'en': 'https://carmarket-eg.online/services?lang=en',
+                    'x-default': 'https://carmarket-eg.online/services'
+                }}
+            />
             <Header 
                 onSearch={handleSearch} 
                 search={true} 

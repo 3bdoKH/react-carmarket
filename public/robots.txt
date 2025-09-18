@@ -1,5 +1,63 @@
+# Robots.txt for Car Market Egypt (carmarket-eg.online)
+# Arabic car services website for Egypt
+
 User-agent: *
 Allow: /
-Disallow: /admin/
 
+# Important pages for SEO
+Allow: /services
+Allow: /about
+Allow: /contact
+Allow: /blog
+Allow: /category/*
+Allow: /city/*
+Allow: /service/*
+
+# Block admin areas from search engines
+Disallow: /admin/
+Disallow: /admin/*
+
+# Block API endpoints
+Disallow: /api/
+Disallow: /api/*
+
+# Block temporary or development files
+Disallow: /*.json$
+Disallow: /temp/
+Disallow: /tmp/
+
+# Allow search engines to access CSS and JS for better rendering
+Allow: /assets/
+Allow: /images/
+Allow: /static/
+Allow: *.css
+Allow: *.js
+Allow: *.png
+Allow: *.jpg
+Allow: *.jpeg
+Allow: *.gif
+Allow: *.svg
+Allow: *.webp
+
+# Sitemap location
 Sitemap: https://carmarket-eg.online/sitemap.xml
+
+# Crawl delay (optional - helps manage server load)
+Crawl-delay: 1
+
+# Specific instructions for major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Block bad bots and scrapers
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /

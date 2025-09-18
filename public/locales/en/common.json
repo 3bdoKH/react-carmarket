@@ -56,5 +56,44 @@
     "open" : "Open",
     "closed" : "Closed",
     "more" : "more",
-    "search-city" : "Type anything to search..."
+    "search-city" : "Type anything to search...",
+    
+    "seo": {
+        "home-title": "Car Market Egypt - Best Car Services in Egypt | Car Maintenance & Repair",
+        "home-description": "Discover the best car service centers in Egypt. Car wash, paint, spare parts, tires and accessories services at the best prices. Book now with Car Market Egypt",
+        "home-keywords": ["car services egypt", "car maintenance", "car repair", "car wash", "car paint", "spare parts", "tires", "car accessories", "service centers egypt", "car market", "car services cairo", "car services alexandria", "car services giza"],
+        
+        "services-title": "All Car Services in Egypt - Service & Repair Centers | Car Market",
+        "services-description": "Browse all available car services in Egypt. Find the best maintenance and repair centers in your area and book easily through Car Market",
+        "services-keywords": ["car service centers", "various car services", "car repair egypt", "periodic maintenance", "original spare parts", "certified centers"],
+        
+        "about-title": "About Car Market - Leading Car Services Platform in Egypt",
+        "about-description": "Learn about Car Market, the leading car services platform in Egypt. We provide the best certified maintenance and repair centers with competitive prices and excellent customer service",
+        "about-keywords": ["about car market", "car services platform", "car services company", "car market vision", "car market team"],
+        
+        "contact-title": "Contact Us - Car Market Customer Service | 24/7 Technical Support",
+        "contact-description": "Contact Car Market customer service team. We provide technical support and assistance in booking car services 24 hours a day, 7 days a week",
+        "contact-keywords": ["contact car market", "customer service", "technical support", "contact us", "customer assistance"],
+        
+        "blog-title": "Car Market Blog - Car News & Tips in Egypt",
+        "blog-description": "Read the latest car news and tips from Car Market experts. Useful information about maintenance, repair, and car care",
+        "blog-keywords": ["car blog", "maintenance tips", "car news", "car care", "car experts"]
+    },
+    
+    "search-results": "Search Results",
+    "no-services-found": "No services found",
+    "loading": "Loading...",
+    "services-available": "services available",
+    "clear-filters": "Clear Filters",
+    "hero-badge-text": "Premium Car Services",
+    "hero-title-line-1": "Find Your Perfect",
+    "hero-title-highlight": "Car Service",
+    "hero-title-suffix": "Partner",
+    "hero-cta-secondary": "View All",
+    "hero-stat-services": "Services",
+    "hero-stat-cities": "Cities",
+    "hero-stat-customers": "Happy Customers",
+    "hero-floating-1": "5-Star Rated",
+    "hero-floating-2": "Fast Service",
+    "hero-floating-3": "Best Prices"
 }
