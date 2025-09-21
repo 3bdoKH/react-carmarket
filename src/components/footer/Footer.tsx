@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from 'react-i18next';
 import { FiMail } from 'react-icons/fi';
 import { FiTruck, FiRefreshCw, FiShield } from 'react-icons/fi';
+import { FaFacebook } from 'react-icons/fa';
 import './footer.css'
 import './footerFeatureBar.css'
 const categories = [
@@ -103,6 +104,11 @@ const Footer: React.FC = () => {
                         <div className="footer__contact-label">{t('about-contact-title')}</div>
                         <a href="mailto:support@emereld-marketing.online" className="footer__contact-email">support@emereld-marketing.online</a>
                     </div>
+                </div>
+                <div className="footer__social-links">
+                    <a href="https://www.facebook.com/profile.php?id=61579728772704" target="_blank" rel="noopener noreferrer" className="footer__social-link" aria-label="Facebook">
+                        <FaFacebook className="footer__social-icon" />
+                    </a>
                 </div>
                 <div className="footer__lang-switcher">
                     <button

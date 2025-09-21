@@ -147,6 +147,36 @@
   color: #38bdf8;
 }
 
+.footer__social-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer__social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.5rem;
+  background: #1e293b;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.footer__social-link:hover {
+  color: #38bdf8;
+  background: #27272a;
+  transform: translateY(-2px);
+}
+
+.footer__social-icon {
+  font-size: 1.2rem;
+}
+
 .footer__lang-switcher {
   display: flex;
   gap: 0.5rem;
