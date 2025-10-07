@@ -139,7 +139,7 @@ const Footer: React.FC = () => {
             ))}
         </div>
         <div className="footer__bottom">
-            <span>© {new Date().getFullYear()} <a href="https://emereld-marketing.online" style={{textDecoration:'none', color:'#38bdf8'}}>EMERELD</a>. All rights reserved.</span>
+            <span>© {new Date().getFullYear()} <a href="https://emereld-marketing.online" style={{textDecoration:'none', color:'#38bdf8'}}>Adam's Agency</a>. All rights reserved.</span>
         </div>
         </footer>
         </>

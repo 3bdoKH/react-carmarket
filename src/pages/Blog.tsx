@@ -4,6 +4,7 @@ import SEO from '../components/seo/SEO';
 import { useTranslation } from 'react-i18next';
 import '../styles/blog.css';
 import { Link } from 'react-router-dom';
+import { blogPosts } from '../data/blogPosts';
 
 const BlogCard = ({heading, paragraph, imgLink, date, blog} : {heading : string, paragraph : string, imgLink : string, date : string, blog : string}) => {
     return (
@@ -23,8 +24,8 @@ const BlogCard = ({heading, paragraph, imgLink, date, blog} : {heading : string,
 const Blog = () => {
     const { t } = useTranslation('common');
     
-    // SEO structured data for blog page
-    const blogStructuredData = {
+	// SEO structured data for blog page
+	const blogStructuredData = {
         '@context': 'https://schema.org',
         '@type': 'Blog',
         name: t('seo.blog-title'),
@@ -39,36 +40,34 @@ const Blog = () => {
                 url: 'https://carmarket-eg.online/images/logo.png'
             }
         },
-        blogPost: [
-            {
-                '@type': 'BlogPosting',
-                headline: 'ما هي أفضل لمبات LED سيارات في مصر ؟',
-                description: 'بمقارنة واضحة تعرف على أفضل لمبات ليد للسيارات تباع في السوق المصري، وتعرف على نقاط قوة وضعف كل اللمبات المتميزة.',
-                url: 'https://carmarket-eg.online/blog/led',
-                datePublished: '2025-07-19',
-                dateModified: '2025-07-19',
-                author: {
-                    '@type': 'Organization',
-                    name: 'Car Market Egypt'
-                },
-                publisher: {
-                    '@type': 'Organization',
-                    name: 'Car Market Egypt',
-                    logo: {
-                        '@type': 'ImageObject',
-                        url: 'https://carmarket-eg.online/images/logo.png'
-                    }
-                },
-                image: {
-                    '@type': 'ImageObject',
-                    url: 'https://i.ibb.co/V0XJZKVc/Best-Car-LED-Bulbs.webp'
-                },
-                mainEntityOfPage: {
-                    '@type': 'WebPage',
-                    '@id': 'https://carmarket-eg.online/blog/led'
-                }
-            }
-        ]
+		blogPost: blogPosts.map(p => ({
+			'@type': 'BlogPosting',
+			headline: p.title,
+			description: p.excerpt,
+			url: `https://carmarket-eg.online/blog/${p.slug}`,
+			datePublished: p.publishedAt,
+			dateModified: p.updatedAt,
+			author: {
+				'@type': 'Organization',
+				name: 'Car Market Egypt'
+			},
+			publisher: {
+				'@type': 'Organization',
+				name: 'Car Market Egypt',
+				logo: {
+					'@type': 'ImageObject',
+					url: 'https://carmarket-eg.online/images/logo.png'
+				}
+			},
+			image: {
+				'@type': 'ImageObject',
+				url: p.image
+			},
+			mainEntityOfPage: {
+				'@type': 'WebPage',
+				'@id': `https://carmarket-eg.online/blog/${p.slug}`
+			}
+		}))
     };
 
     return (
@@ -87,9 +86,11 @@ const Blog = () => {
                 }}
             />
             <Header onSearch={() => {}} search={false} />
-            <div className="blog">
-                <BlogCard heading='ما هي أفضل لمبات LED سيارات في مصر ؟' paragraph='بمقارنة واضحة تعرف على أفضل لمبات ليد للسيارات تباع في السوق المصري، وتعرف على نقاط قوة وضعف كل اللمبات المتميزة.' imgLink='https://i.ibb.co/V0XJZKVc/Best-Car-LED-Bulbs.webp' date='19 / 7 / 2025' blog='led'   />
-            </div>
+			<div className="blog">
+				{blogPosts.map(post => (
+					<BlogCard key={post.slug} heading={post.title} paragraph={post.excerpt} imgLink={post.image} date={post.date} blog={post.slug} />
+				))}
+			</div>
             <Footer />
         </>
     );
