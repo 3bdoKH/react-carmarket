@@ -5,14 +5,14 @@ import 'slick-carousel/slick/slick-theme.css';
 import './sponsorSlider.css'
 const sponsors = [
     {
-        name: 'Captain Winch',
-        image: '/images/elcaptin.jpg',
-        link: 'https://captainwinch.com/', 
+        name: 'Winch Enqaz',
+        image: '/images/winch.png',
+        link: 'https://winchenqaz.com/',
     },
     {
-        name: 'Mohamed Bahr',
+        name: 'Winch Mohamed Bahr',
         image: '/images/mohamedbahr.png',
-        link: 'https://winchmohamedbahr.com/', 
+        link: 'https://winchmohamedbahr.com/',
     },
 ];
 
@@ -42,20 +42,20 @@ const settings = {
 const SponsorSlider: React.FC = () => {
     return (
         <div className="sponsor-slider-container">
-        <Slider {...settings}>
-            {sponsors.map((sponsor) => (
-            <div key={sponsor.name}>
-                <a href={sponsor.link} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-                <img
-                    src={sponsor.image}
-                    alt={sponsor.name}
-                    className="sponsor-slider-image"
-                />
-                </a>
-                <div className="sponsor-slider-name">{sponsor.name}</div>
-            </div>
-            ))}
-        </Slider>
+            <Slider {...settings}>
+                {sponsors.map((sponsor) => (
+                    <div key={sponsor.name}>
+                        <a href={sponsor.link} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                            <img
+                                src={sponsor.image}
+                                alt={sponsor.name}
+                                className="sponsor-slider-image"
+                            />
+                        </a>
+                        <div className="sponsor-slider-name">{sponsor.name}</div>
+                    </div>
+                ))}
+            </Slider>
         </div>
     );
 };
