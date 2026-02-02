@@ -82,8 +82,8 @@ const Contact = () => {
       <div className="contact-container">
         <h1 className="contact-title">Contact Us</h1>
         <div className="contact-info">
-          <p className="contact-detail"><FaPhone style={{ marginRight: '8px' }} />Contact Number: <a href="tel:01034016811">01034016811</a></p>
-          <p className="contact-detail"><FaWhatsapp style={{ marginRight: '8px', color: '#25D366' }} />WhatsApp: <a href="https://wa.me/201034016811" target="_blank" rel="noopener noreferrer">01034016811</a></p>
+          {/* <p className="contact-detail"><FaPhone style={{ marginRight: '8px' }} />Contact Number: <a href="tel:01034016811">01034016811</a></p>
+          <p className="contact-detail"><FaWhatsapp style={{ marginRight: '8px', color: '#25D366' }} />WhatsApp: <a href="https://wa.me/201034016811" target="_blank" rel="noopener noreferrer">01034016811</a></p> */}
           <p className="contact-detail"><FaEnvelope style={{ marginRight: '8px', }} /> : <a href="mailto:support@emereld-marketing.online" style={{ fontSize: '15px' }}>support@adams-agency.online</a></p>
         </div>
         <form onSubmit={handleSubmit} className="contact-form">
