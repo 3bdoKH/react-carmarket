@@ -3,8 +3,7 @@ import Header from '../components/header/Header';
 import Footer from '../components/footer/Footer';
 import SEO from '../components/seo/SEO';
 import { useTranslation } from 'react-i18next';
-import { FaPhone, FaEnvelope } from 'react-icons/fa';
-import { FaWhatsapp } from 'react-icons/fa';
+import { FaEnvelope } from 'react-icons/fa';
 import '../styles/contact.css';
 
 const Contact = () => {
