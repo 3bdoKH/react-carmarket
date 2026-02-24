@@ -2151,7 +2151,7 @@ export const blogPosts: BlogPost[] = [
                 <h1 className="led-blog-main-title">ونش الجمهورية: أسرع ونش انقاذ سيارات في مصر</h1>
                 <h2 className="led-blog-section-title">خدمة إنقاذ سيارات متاحة 24/7 في جميع المحافظات</h2>
                 <div className="blog-led-image">
-                    <img src="/images/winch.png" alt="ونش الجمهورية - خدمات إنقاذ وسحب السيارات" />
+                    <img src="/images/elgomhoria.png" alt="ونش الجمهورية - خدمات إنقاذ وسحب السيارات" />
                 </div>
                 <p className="led-blog-paragraph">
                     هل تعطلت سيارتك في الطريق وتحتاج مساعدة فورية؟
