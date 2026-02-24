@@ -15,9 +15,9 @@ const sponsors = [
         link: 'https://winchmohamedbahr.com/',
     },
     {
-        name: 'Winch Elcaptin',
-        image: '/images/elcaptin.jpg',
-        link: 'https://captainwinch.com/',
+        name: 'Winch Elgomhoria',
+        image: '/images/elgomhoria.png',
+        link: 'https://winchelgomhoria.com/',
     },
 ];
 
