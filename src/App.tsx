@@ -20,7 +20,7 @@ const AdminLogin = lazy(() => import('./pages/admin/Login.tsx'));
 function App() {
   return (
     <Router>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />

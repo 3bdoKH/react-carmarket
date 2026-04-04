@@ -19,6 +19,11 @@ const sponsors = [
         image: '/images/elgomhoria.png',
         link: 'https://winchelgomhoria.com/',
     },
+    {
+        name: 'Winch El Suez',
+        image: '/images/winch-elsuez.png',
+        link: 'https://winch-elsuez.com/',
+    },
 ];
 
 const settings = {
