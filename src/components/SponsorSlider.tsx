@@ -21,8 +21,8 @@ const sponsors = [
     },
     {
         name: 'Winch El Suez',
-        image: '/images/winch-elsuez.png',
-        link: 'https://winch-elsuez.com/',
+        image: '/images/winch-plus.webp',
+        link: 'https://wensh-inkaz.com/',
     },
 ];
 
