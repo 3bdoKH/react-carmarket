@@ -20,7 +20,7 @@ const sponsors = [
         link: 'https://winchelgomhoria.com/',
     },
     {
-        name: 'Winch El Suez',
+        name: 'Winch Plus',
         image: '/images/winch-plus.webp',
         link: 'https://wensh-inkaz.com/',
     },
