@@ -24,6 +24,11 @@ const sponsors = [
         image: '/images/winch-plus.webp',
         link: 'https://wensh-inkaz.com/',
     },
+    {
+        name: 'Winch Elsuez',
+        image: '/images/winch-elsuez.png',
+        link: 'https://wensh-elsuez.com/',
+    },
 ];
 
 const settings = {
